@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -22,19 +23,20 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         //menghubungkan view dengan variabel spinner
-        spinner=(Spinner) findViewById(R.id.spinner1);
+        spinner = (Spinner) findViewById(R.id.spinner1);
         //event ketika ada item pada spinner yang dipilih
         spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
             //ketika memilih salah satu item
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 //ambil nilai dari item spinner yang dipilih lalu disimpan pada variabel jk
-                String jk=String.valueOf(parentView.getSelectedItem());
+                String jk = String.valueOf(parentView.getSelectedItem());
                 //Menampilkan variabel JK dalam bentuk toast
-                Toast.makeText(getApplicationContext(), "Jenis Kelamin Anda "+jk, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Jenis Kelamin Anda "+jk, Toast.LENGTH_LONG).show();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 // your code here

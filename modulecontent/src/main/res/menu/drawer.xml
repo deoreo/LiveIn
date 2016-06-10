@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"> <group android:checkableBehavior="single">
+    <item
+        android:id="@+id/userprofile"
+        android:checked="false"
+        android:icon="@mipmap/ic_launcher"
+        android:title="User Profile" />
+    <item
+        android:id="@+id/about_us"
+        android:checked="false"
+        android:icon="@mipmap/ic_launcher"
+        android:title="About Us" />
+    <item
+        android:id="@+id/getting_to_know"
+        android:checked="false"
+        android:icon="@mipmap/ic_launcher"
+        android:title="Getting To Know" />
+    <item
+        android:id="@+id/entertainment"
+        android:checked="false"
+        android:icon="@drawable/entertainment"
+        android:title="Entertainment " />
+    <item
+        android:id="@+id/dining"
+        android:checked="false"
+        android:icon="@drawable/dining"
+        android:title="Dining " />
+    <item
+        android:id="@+id/accomodation"
+        android:checked="false"
+        android:icon="@drawable/accomodation"
+        android:title="Accomodation " />
+    <item
+        android:id="@+id/shopping"
+        android:checked="false"
+        android:icon="@drawable/shopping"
+        android:title="Shopping" />
+    <item
+        android:id="@+id/education"
+        android:checked="false"
+        android:icon="@drawable/education"
+        android:title="Education" />
+    <item
+        android:id="@+id/health_care"
+        android:checked="false"
+        android:icon="@drawable/health_care"
+        android:title="Health Care" />
+    <item
+        android:id="@+id/transportation"
+        android:checked="false"
+        android:icon="@drawable/transportation"
+        android:title="Transportation" />
+    <item
+        android:id="@+id/public_services"
+        android:checked="false"
+        android:icon="@drawable/public_services"
+        android:title="Public Services" />
+    <item
+        android:id="@+id/industrial_directory"
+        android:checked="false"
+        android:icon="@drawable/industrial_directory"
+        android:title="Industrial Directory" />
+    <item
+        android:id="@+id/photo_gallery"
+        android:checked="false"
+        android:icon="@drawable/gallery"
+        android:title="Photo Gallery" />
+    <item
+        android:id="@+id/help"
+        android:checked="false"
+        android:icon="@drawable/help"
+        android:title="Help" />
+    <item
+        android:id="@+id/useful_information"
+        android:checked="false"
+        android:icon="@drawable/useful_information"
+        android:title="Useful Information" />
+
+</group>
+</menu>

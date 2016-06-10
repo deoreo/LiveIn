@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Content</string>
+    <string name="openDrawer">Open Drawer</string>
+    <string name="closeDrawer">Close Drawer</string>
+
+    <string name="search_title">Search</string>
+    <string name="search_hint">Search</string>
+</resources>

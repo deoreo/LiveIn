@@ -92,7 +92,7 @@
                 android:textSize="15dp" />
 
             <Button
-                android:id="@+id/login"
+                android:id="@+id/btnLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -100,6 +100,7 @@
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:background="#41a5dc"
+                android:onClick="ClickHome"
                 android:text="Log In" />
 
             <TextView
@@ -159,7 +160,7 @@
                 android:textAlignment="center"
                 android:textColor="#ffffff"
                 android:textSize="15dp"
-                android:onClick="onClickListener"
+                android:onClick="ClickRegister"
                 android:clickable="true"/>
 
 
