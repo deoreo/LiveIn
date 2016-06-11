@@ -27,7 +27,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.4.0'
     compile 'com.android.support:cardview-v7:23.4.0'
     compile project(':modulesplash')
-    compile project(':modulelogin')
+    compile project(':moduleaccount')
     compile project(':modulecontent')
     compile project(':moduleprofile')
     compile 'com.android.support:support-annotations:23.4.0'

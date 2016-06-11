@@ -1,1 +1,1 @@
-include ':app', ':modulesplash', ':modulelogin', ':modulecontent', ':moduleprofile'
+include ':app', ':modulesplash', ':moduleaccount', ':modulecontent', ':moduleprofile'

@@ -2,14 +2,14 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/background_account"
     android:orientation="vertical">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background"
+        android:background="@drawable/background_account"
         android:orientation="vertical">
 
         <LinearLayout
@@ -17,6 +17,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:layout_marginTop="35dp"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -24,7 +25,7 @@
                 android:layout_width="150dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
                 android:background="@drawable/back1" />
 
             <TextView
@@ -55,20 +56,22 @@
             <EditText
                 android:id="@+id/email"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:hint="@string/hint_email"
                 android:background="#e6e7e8"
                 android:paddingLeft="10dp"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
                 android:textColorHint="#000000" />
 
             <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="10dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="15dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:hint="@string/hint_password"
@@ -76,14 +79,16 @@
                 android:paddingLeft="10dp"
                 android:textColorHint="#000000"
                 android:textColor="#000000"
-                android:password="true" />
+                android:maxLines="1"
+                android:inputType="textPassword"
+                />
 
             <TextView
                 android:id="@+id/forgot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="15dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:text="Forgot your password?"
@@ -94,13 +99,13 @@
             <Button
                 android:id="@+id/btnLogin"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="40dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:background="#41a5dc"
-                android:onClick="ClickHome"
+                android:textColor="@color/white"
                 android:text="Log In" />
 
             <TextView
@@ -153,14 +158,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="50dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:text="Sign up for LippoCikarang.com"
                 android:textAlignment="center"
                 android:textColor="#ffffff"
                 android:textSize="15dp"
-                android:onClick="ClickRegister"
                 android:clickable="true"/>
 
 
