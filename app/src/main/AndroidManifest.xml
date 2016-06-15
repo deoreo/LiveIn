@@ -2,6 +2,13 @@
     package="visionet.smartcity">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+
 
     <application
         android:allowBackup="true"
@@ -9,7 +16,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
         <activity
             android:name="id.co.visionet.smartcity.screen.Activity.WelcomeActivity"
             android:screenOrientation="portrait"
@@ -75,6 +87,108 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
+
+        <activity android:name="com.example.content.Activity.Home" />
+
+        <!-- Getting To Know -->
+        <activity android:name="com.example.content.Activity.GettingToKnow" />
+        <activity android:name="com.example.content.Activity.GettingToKnowDetail" />
+
+        <!-- Entertaiment -->
+        <activity android:name="com.example.content.Activity.Entertaiment" />
+        <activity android:name="com.example.content.Activity.EntertaimentRecommended" />
+        <activity android:name="com.example.content.Activity.EntertaimentRecommendedDetail" />
+        <activity android:name="com.example.content.Activity.EntertaimentArt" />
+        <activity android:name="com.example.content.Activity.EntertaimentArtDetail" />
+        <activity android:name="com.example.content.Activity.EntertaimentBeauty" />
+        <activity android:name="com.example.content.Activity.EntertaimentBeautyDetail" />
+        <activity android:name="com.example.content.Activity.EntertaimentEvents" />
+        <activity android:name="com.example.content.Activity.EntertaimentEventsDetail" />
+        <activity android:name="com.example.content.Activity.EntertaimentLeisure" />
+        <activity android:name="com.example.content.Activity.EntertaimentLeisureDetail" />
+        <activity android:name="com.example.content.Activity.EntertaimentSport" />
+        <activity android:name="com.example.content.Activity.EntertaimentSportDetail" />
+
+        <!-- Education -->
+        <activity android:name="com.example.content.Activity.Education" />
+        <activity android:name="com.example.content.Activity.EducationDetail" />
+
+        <!-- Health Care -->
+        <activity android:name="com.example.content.Activity.HealthCare" />
+        <activity android:name="com.example.content.Activity.HealthCareDetail" />
+
+        <!-- Industry -->
+        <activity android:name="com.example.content.Activity.Industry" />
+        <activity android:name="com.example.content.Activity.IndustryDetail" />
+
+        <activity android:name="com.example.content.Activity.Dining" />
+        <activity android:name="com.example.content.Activity.DiningBakery" />
+        <activity android:name="com.example.content.Activity.DiningBakeryDetail" />
+        <activity android:name="com.example.content.Activity.DiningBar" />
+        <activity android:name="com.example.content.Activity.DiningBarDetail" />
+        <activity android:name="com.example.content.Activity.DiningFast" />
+        <activity android:name="com.example.content.Activity.DiningFastDetail" />
+        <activity android:name="com.example.content.Activity.DiningJapanese" />
+        <activity android:name="com.example.content.Activity.DiningJapaneseDetail" />
+        <activity android:name="com.example.content.Activity.DiningKorean" />
+        <activity android:name="com.example.content.Activity.DiningKoreanDetail" />
+        <activity android:name="com.example.content.Activity.DiningRecommended" />
+        <activity android:name="com.example.content.Activity.DiningRecommendedDetail" />
+        <activity android:name="com.example.content.Activity.DiningTraditional" />
+        <activity android:name="com.example.content.Activity.DiningTraditionalDetail" />
+        <activity android:name="com.example.content.Activity.DiningWestern" />
+        <activity android:name="com.example.content.Activity.DiningWesternDetail" />
+        <activity android:name="com.example.content.Activity.Accomodation" />
+        <activity android:name="com.example.content.Activity.AccomodationApartment" />
+        <activity android:name="com.example.content.Activity.AccomodationApartmentDetail" />
+        <activity android:name="com.example.content.Activity.AccomodationCondominiums" />
+        <activity android:name="com.example.content.Activity.AccomodationCondominiumsDetail" />
+        <activity android:name="com.example.content.Activity.AccomodationHotel" />
+        <activity android:name="com.example.content.Activity.AccomodationHotelDetail" />
+        <activity android:name="com.example.content.Activity.AccomodationRecommended" />
+        <activity android:name="com.example.content.Activity.AccomodationRecommendedDetail" />
+
+        <!-- Public Services -->
+        <activity android:name="com.example.content.Activity.PublicServices" />
+        <activity android:name="com.example.content.Activity.PublicServicesATM" />
+        <activity android:name="com.example.content.Activity.PublicServicesATMDetail" />
+        <activity android:name="com.example.content.Activity.PublicServicesBank" />
+        <activity android:name="com.example.content.Activity.PublicServicesBankDetail" />
+        <activity android:name="com.example.content.Activity.PublicServicesInsurance" />
+        <activity android:name="com.example.content.Activity.PublicServicesInsuranceDetail" />
+        <activity android:name="com.example.content.Activity.PublicServicesNotaris" />
+        <activity android:name="com.example.content.Activity.PublicServicesNotarisDetail" />
+        <activity android:name="com.example.content.Activity.PublicServicesPropertyAgents" />
+        <activity android:name="com.example.content.Activity.PublicServicesPropertyAgentsDetail" />
+        <activity android:name="com.example.content.Activity.PublicServicesSPBU" />
+        <activity android:name="com.example.content.Activity.PublicServicesSPBUDetail" />
+        <activity android:name="com.example.content.Activity.PublicServicesTour" />
+        <activity android:name="com.example.content.Activity.PublicServicesTourDetail" />
+        <activity android:name="com.example.content.Activity.PublicServicesWorkshop" />
+        <activity android:name="com.example.content.Activity.PublicServicesWorkshopDetail" />
+
+        <!-- Shopping -->
+        <activity android:name="com.example.content.Activity.Shopping" />
+        <activity android:name="com.example.content.Activity.ShoppingAutomotive" />
+        <activity android:name="com.example.content.Activity.ShoppingAutomotiveDetail" />
+        <activity android:name="com.example.content.Activity.ShoppingBookAndStationety" />
+        <activity android:name="com.example.content.Activity.ShoppingBookAndStationetyDetail" />
+        <activity android:name="com.example.content.Activity.ShoppingDepartmentStore" />
+        <activity android:name="com.example.content.Activity.ShoppingDepartmentStoreDetail" />
+        <activity android:name="com.example.content.Activity.ShoppingElectronic" />
+        <activity android:name="com.example.content.Activity.ShoppingElectronicDetail" />
+        <activity android:name="com.example.content.Activity.ShoppingFashion" />
+        <activity android:name="com.example.content.Activity.ShoppingFashionDetail" />
+        <activity android:name="com.example.content.Activity.ShoppingHomeImprovement" />
+        <activity android:name="com.example.content.Activity.ShoppingHomeImprovementDetail" />
+        <activity android:name="com.example.content.Activity.ShoppingMart" />
+        <activity android:name="com.example.content.Activity.ShoppingMartDetail" />
+        <activity android:name="com.example.content.Activity.ShoppingRecommended" />
+        <activity android:name="com.example.content.Activity.ShoppingRecommendedDetail" />
+
+        <!-- Transportation -->
+        <activity android:name="com.example.content.Activity.Transportation" />
+        <activity android:name="com.example.content.Activity.TransportationPublic" />
 
     </application>
 

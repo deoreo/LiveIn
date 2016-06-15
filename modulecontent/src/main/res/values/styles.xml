@@ -24,10 +24,16 @@
         <item name="android:orientation">vertical</item>
     </style>
 
+    <style name="RatingBarXSmall" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ratingbar_xsmall</item>
+        <item name="android:minHeight">22dp</item>
+        <item name="android:maxHeight">23dp</item>
+    </style>
+
     <style name="RatingBarSmall" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/ratingbar_small</item>
-        <item name="android:minHeight">23dp</item>
-        <item name="android:maxHeight">24dp</item>
+        <item name="android:minHeight">27dp</item>
+        <item name="android:maxHeight">28dp</item>
     </style>
 
     <style name="RatingBarLarge" parent="@android:style/Widget.RatingBar">

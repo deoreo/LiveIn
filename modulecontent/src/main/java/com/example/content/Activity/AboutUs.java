@@ -1,8 +1,8 @@
 package com.example.content.Activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,7 +13,6 @@ import com.example.content.R;
 public class AboutUs extends AppCompatActivity {
 
     Toolbar bar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +54,7 @@ public class AboutUs extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Download", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == android.R.id.home){
-            Intent intent_about_us = new Intent(AboutUs.this, Content.class);
+            Intent intent_about_us = new Intent(AboutUs.this, Home.class);
             startActivity(intent_about_us);
             AboutUs.this.finish();
         }

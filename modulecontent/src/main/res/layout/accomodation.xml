@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context="com.example.content.Activity.Accomodation">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:paddingBottom="16dp">
+
+                <ViewFlipper
+                    android:id="@+id/bckgrndViewFlipper1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+                    <ImageView
+                        android:id="@+id/bckgrndImageView8"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/about" />
+                    <ImageView
+                        android:id="@+id/bckgrndImageView7"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/ic_launcher" />
+                    <ImageView
+                        android:id="@+id/bckgrndImageView6"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/about" />
+                    <ImageView
+                        android:id="@+id/bckgrndImageView5"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/ic_launcher"/>
+                </ViewFlipper>
+            </LinearLayout>
+
+            <TableLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                android:gravity="center">
+
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:id="@+id/btn_recommended"
+                        android:layout_width="107dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_button"
+                        android:drawablePadding="10dp"
+                        android:drawableTop="@drawable/entertainment"
+                        android:paddingRight="5dp"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:layout_margin="5dp"
+                        android:textSize="11sp"
+                        android:textColor="@android:color/white"
+                        android:text="RECOMMENDED">
+                    </Button>
+
+                    <Button
+                        android:id="@+id/btn_condominiums"
+                        android:layout_width="107dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_button"
+                        android:drawablePadding="10dp"
+                        android:drawableTop="@drawable/dining"
+                        android:paddingRight="5dp"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:layout_margin="5dp"
+                        android:textSize="11sp"
+                        android:textColor="@android:color/white"
+                        android:text="CONDOMINIUMS">
+                    </Button>
+
+                    <Button
+                        android:id="@+id/btn_hotel"
+                        android:layout_width="107dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_button"
+                        android:drawablePadding="10dp"
+                        android:drawableTop="@drawable/accomodation"
+                        android:paddingRight="5dp"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:layout_margin="5dp"
+                        android:textSize="11sp"
+                        android:textColor="@android:color/white"
+                        android:text="HOTEL">
+                    </Button>
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:id="@+id/btn_apartment"
+                        android:background="@drawable/border_button"
+                        android:drawablePadding="10dp"
+                        android:drawableTop="@drawable/shopping"
+                        android:paddingRight="5dp"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:layout_margin="5dp"
+                        android:textSize="11sp"
+                        android:textColor="@android:color/white"
+                        android:text="APARTMENT">
+                    </Button>
+
+                </TableRow>
+
+            </TableLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
+

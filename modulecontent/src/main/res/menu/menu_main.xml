@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:appcompat="http://schemas.android.com/apk/res-auto"
-    tools:context=".Activity.Content">
+    tools:context=".Activity.Home">
 
     <item
         android:id="@+id/search"

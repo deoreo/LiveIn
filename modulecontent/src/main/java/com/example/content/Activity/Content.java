@@ -127,7 +127,7 @@ public class Content extends AppCompatActivity {
                 //Check to see which item was being clicked and perform appropriate action
 
                 int i = menuItem.getItemId();
-                if (i == R.id.userprofile) {/*Toast.makeText(getApplicationContext(), "About Us", Toast.LENGTH_SHORT).show();*/
+                if (i == R.id.user_profile) {/*Toast.makeText(getApplicationContext(), "About Us", Toast.LENGTH_SHORT).show();*/
                     Intent intent_about_us = new Intent(Content.this, ProfileActivity.class);
                     startActivity(intent_about_us);
                     return true;
@@ -142,33 +142,49 @@ public class Content extends AppCompatActivity {
                     Content.this.finish();
                     return true;
                 } else if (i == R.id.entertainment) {/*Toast.makeText(getApplicationContext(), "Entertainment", Toast.LENGTH_SHORT).show();*/
-                    Intent intent_recommended = new Intent(Content.this, Recommended.class);
+                    Intent intent_recommended = new Intent(Content.this, Entertaiment.class);
                     startActivity(intent_recommended);
                     Content.this.finish();
                     return true;
                 } else if (i == R.id.dining) {
-                    Toast.makeText(getApplicationContext(), "Dining", Toast.LENGTH_SHORT).show();
+                    Intent intent_recommended = new Intent(Content.this, Dining.class);
+                    startActivity(intent_recommended);
+                    Content.this.finish();
                     return true;
                 } else if (i == R.id.accomodation) {
-                    Toast.makeText(getApplicationContext(), "Accomodation", Toast.LENGTH_SHORT).show();
+                    Intent intent_recommended = new Intent(Content.this, Accomodation.class);
+                    startActivity(intent_recommended);
+                    Content.this.finish();
                     return true;
                 } else if (i == R.id.shopping) {
-                    Toast.makeText(getApplicationContext(), "Shopping", Toast.LENGTH_SHORT).show();
+                    Intent intent_recommended = new Intent(Content.this, Shopping.class);
+                    startActivity(intent_recommended);
+                    Content.this.finish();
                     return true;
                 } else if (i == R.id.education) {
-                    Toast.makeText(getApplicationContext(), "Education", Toast.LENGTH_SHORT).show();
+                    Intent intent_recommended = new Intent(Content.this, Education.class);
+                    startActivity(intent_recommended);
+                    Content.this.finish();
                     return true;
                 } else if (i == R.id.health_care) {
-                    Toast.makeText(getApplicationContext(), "Health Care", Toast.LENGTH_SHORT).show();
+                    Intent intent_recommended = new Intent(Content.this, HealthCare.class);
+                    startActivity(intent_recommended);
+                    Content.this.finish();
                     return true;
                 } else if (i == R.id.transportation) {
-                    Toast.makeText(getApplicationContext(), "Transportation", Toast.LENGTH_SHORT).show();
+                    Intent intent_recommended = new Intent(Content.this, Transportation.class);
+                    startActivity(intent_recommended);
+                    Content.this.finish();
                     return true;
                 } else if (i == R.id.public_services) {
-                    Toast.makeText(getApplicationContext(), " Public Services", Toast.LENGTH_SHORT).show();
+                    Intent intent_recommended = new Intent(Content.this, PublicServices.class);
+                    startActivity(intent_recommended);
+                    Content.this.finish();
                     return true;
                 } else if (i == R.id.industrial_directory) {
-                    Toast.makeText(getApplicationContext(), "Industrial Directory", Toast.LENGTH_SHORT).show();
+                    Intent intent_recommended = new Intent(Content.this, Industry.class);
+                    startActivity(intent_recommended);
+                    Content.this.finish();
                     return true;
                 } else if (i == R.id.photo_gallery) {
                     Toast.makeText(getApplicationContext(), "Photo Gallery", Toast.LENGTH_SHORT).show();
