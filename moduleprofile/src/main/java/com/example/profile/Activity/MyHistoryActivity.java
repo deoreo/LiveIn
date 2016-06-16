@@ -1,11 +1,14 @@
 package com.example.profile.Activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.profile.R;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by User on 6/8/2016.
@@ -21,4 +24,10 @@ public class MyHistoryActivity extends AppCompatActivity {
     public void let(View view)
     {
         Toast.makeText(MyHistoryActivity.this, "OKAII LET'S GO!!", Toast.LENGTH_SHORT).show();
-    }}
+    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+}

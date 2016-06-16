@@ -1,5 +1,6 @@
 package com.example.content.Activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.example.content.R;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by SMK Telkom SP Malang on 09/06/2016.
@@ -185,5 +188,10 @@ public class PublicServices extends AppCompatActivity {
         Intent intent_public_services = new Intent(PublicServices.this, Home.class);
         startActivity(intent_public_services);
         PublicServices.this.finish();;
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.content.Activity.Content;
+import com.example.content.Activity.Home;
 import com.example.login.R;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -36,7 +37,7 @@ public class LoginActivity extends Activity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, Content.class);
+                Intent intent = new Intent(LoginActivity.this, Home.class);
                 startActivity(intent);
                 finish();
             }

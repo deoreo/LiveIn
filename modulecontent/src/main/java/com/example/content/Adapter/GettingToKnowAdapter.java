@@ -26,25 +26,27 @@ public class GettingToKnowAdapter extends RecyclerView.Adapter<GettingToKnowAdap
     public GettingToKnowAdapter() {
         super();
         Items = new ArrayList<GettingToKnowItem>();
-        GettingToKnowItem category = new GettingToKnowItem();
-
+        GettingToKnowItem[] category = new GettingToKnowItem[5];
+        category[0] = new GettingToKnowItem();
+        category[1] = new GettingToKnowItem();
+        category[2] = new GettingToKnowItem();
         //Card View 1
-        category.setTitle("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
-        category.setDate("10 April 2016");
-        category.setThumbnail(R.drawable.about);
-        Items.add(category);
+        category[0].setTitle("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
+        category[0].setDate("8 June 2016");
+        category[0].setThumbnail(R.drawable.view0);
+        Items.add(category[0]);
 
         //Card View 2
-        category.setTitle("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
-        category.setDate("11 April 2016");
-        category.setThumbnail(R.drawable.about);
-        Items.add(category);
+        category[1].setTitle("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
+        category[1].setDate("11 June 2016");
+        category[1].setThumbnail(R.drawable.view1);
+        Items.add(category[1]);
 
         //Card View 3
-        category.setTitle("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
-        category.setDate("12 April 2016");
-        category.setThumbnail(R.drawable.about);
-        Items.add(category);
+        category[2].setTitle("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
+        category[2].setDate("15 June 2016");
+        category[2].setThumbnail(R.drawable.view2);
+        Items.add(category[2]);
 
     }
 

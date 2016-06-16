@@ -23,13 +23,15 @@ import com.example.content.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by SMK Telkom SP Malang on 10/06/2016.
  */
 public class EntertaimentEvents extends AppCompatActivity implements
         AdapterView.OnItemClickListener {
 
-    Spinner spinner;
+    Spinner spinner_category, spinner_sort;
     String[] cities = {
             "Mumbai",
             "Delhi",
@@ -73,27 +75,6 @@ public class EntertaimentEvents extends AppCompatActivity implements
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Events");
 
-
-/*        final Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter<String> apt =new ArrayAdapter<String>(this,R.layout.spinner_items,cities);
-        spinner.setAdapter(apt);
-        spinner.setPrompt("Category");
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                int sid=spinner.getSelectedItemPosition();
-                Toast.makeText(getBaseContext(), "You have selected City : " + cities[sid],
-                        Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
-
-
         SubCategoryItem = new ArrayList<com.example.content.Model.SubCategoryItem>();
         for (int i = 0; i < title.length; i++) {
             com.example.content.Model.SubCategoryItem item = new SubCategoryItem(thumbnail[i], title[i], location[i], distance[i]);
@@ -105,6 +86,58 @@ public class EntertaimentEvents extends AppCompatActivity implements
                 R.layout.sub_category_item, SubCategoryItem);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
+
+        initSpinner();
+    }
+
+    // Initialization spinner
+    private void initSpinner() {
+        spinner_category = (Spinner) findViewById(R.id.spinner_category);
+        spinner_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            //get strings of first item
+            String firstItem = String.valueOf(spinner_category.getSelectedItem());
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (firstItem.equals(String.valueOf(spinner_category.getSelectedItem()))) {
+                    // ToDo when first item is selected
+                } else {
+                    Toast.makeText(parent.getContext(),
+                            "You have selected : " + parent.getItemAtPosition(position).toString(),
+                            Toast.LENGTH_LONG).show();
+                    // Todo when item is selected by the user
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinner_sort = (Spinner) findViewById(R.id.spinner_sort);
+        spinner_sort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            //get strings of first item
+            String firstItem = String.valueOf(spinner_sort.getSelectedItem());
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (firstItem.equals(String.valueOf(spinner_sort.getSelectedItem()))) {
+                    // ToDo when first item is selected
+                } else {
+                    Toast.makeText(parent.getContext(),
+                            "You have selected : " + parent.getItemAtPosition(position).toString(),
+                            Toast.LENGTH_LONG).show();
+                    // Todo when item is selected by the user
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
@@ -195,5 +228,10 @@ public class EntertaimentEvents extends AppCompatActivity implements
             this.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

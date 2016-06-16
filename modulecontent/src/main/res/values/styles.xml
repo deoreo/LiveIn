@@ -42,4 +42,8 @@
         <item name="android:maxHeight">58dp</item>
     </style>
 
+    <style name="spinner_style" >
+        <item name="android:background">@drawable/rounded_spinner</item>
+
+    </style>
 </resources>

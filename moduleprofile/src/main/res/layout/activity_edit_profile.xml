@@ -30,7 +30,7 @@
                 android:elevation="5dp"
                 android:padding="20dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/img1"
+                android:src="@drawable/album1"
                 />
 
             <TextView
@@ -40,7 +40,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="8dp"
                 android:layout_below="@+id/user_profile_photo"
-                android:text="Bamas Angkasa"
+                android:text="Januar Salman"
                 android:textColor="#fff"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -65,7 +65,8 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:layout_marginTop="5dp"
-                android:text=" Name"/>
+                android:paddingLeft="20dp"
+                android:hint=" Name"/>
 
             <com.jaredrummler.materialspinner.MaterialSpinner
                 android:id="@+id/spinner"
@@ -75,6 +76,7 @@
                 android:textColor="#000"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
+                android:textSize="17dp"
                 android:layout_marginTop="5dp"/>
 
             <EditText
@@ -86,7 +88,8 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:layout_marginTop="5dp"
-                android:text=" Phone"/>
+                android:paddingLeft="20dp"
+                android:hint=" Phone"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -97,7 +100,8 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:layout_marginTop="5dp"
-                android:text=" Email"/>
+                android:paddingLeft="20dp"
+                android:hint=" Email"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -108,7 +112,8 @@
                 android:layout_marginRight="25dp"
                 android:layout_marginTop="5dp"
                 android:background="#ffffff"
-                android:text=" Password"
+                android:paddingLeft="20dp"
+                android:hint=" Password"
                 />
 
             <EditText
@@ -120,7 +125,8 @@
                 android:layout_marginRight="25dp"
                 android:layout_marginTop="5dp"
                 android:background="#ffffff"
-                android:text=" Confirm Password"/>
+                android:paddingLeft="20dp"
+                android:hint=" Confirm Password"/>
 
             <Button
                 android:layout_width="wrap_content"

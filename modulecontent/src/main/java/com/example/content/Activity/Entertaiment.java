@@ -1,5 +1,6 @@
 package com.example.content.Activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.example.content.R;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by M. Asrof Bayhaqqi on 6/9/2016.
@@ -165,5 +168,9 @@ public class Entertaiment extends AppCompatActivity {
         Intent intent_entertaiment = new Intent(Entertaiment.this, Home.class);
         startActivity(intent_entertaiment);
         Entertaiment.this.finish();
+    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

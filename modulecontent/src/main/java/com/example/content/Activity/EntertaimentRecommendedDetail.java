@@ -1,5 +1,6 @@
 package com.example.content.Activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.content.R;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by M. Asrof Bayhaqqi on 6/8/2016.
@@ -25,7 +28,7 @@ public class EntertaimentRecommendedDetail extends AppCompatActivity {
         bar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(bar);
 
-        getSupportActionBar().setTitle("Recommended Entertaiment Detail");
+        getSupportActionBar().setTitle("Entertaiment Recommended Detail");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -42,5 +45,10 @@ public class EntertaimentRecommendedDetail extends AppCompatActivity {
             this.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

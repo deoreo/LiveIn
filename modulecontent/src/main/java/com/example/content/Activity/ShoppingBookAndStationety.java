@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -22,12 +23,15 @@ import com.example.content.Adapter.ShoppingBookAndStationetyAdapter;
 import com.example.content.Model.SubCategoryItem;
 import com.example.content.R;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by Administrator on 13/06/2016.
  */
 public class ShoppingBookAndStationety extends AppCompatActivity implements
         AdapterView.OnItemClickListener {
 
+    Spinner spinner_category, spinner_sort;
     public static final String[] title = new String[]{
             "Book & Stationety 1", "Book & Stationety 2", "Book & Stationety 3", "Book & Stationety 4", "Book & Stationety 5",
             "Book & Stationety 6", "Book & Stationety 7"};
@@ -77,27 +81,6 @@ public class ShoppingBookAndStationety extends AppCompatActivity implements
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
-/*        final Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter<String> apt =new ArrayAdapter<String>(this,R.layout.spinner_items,cities);
-        spinner.setAdapter(apt);
-        spinner.setPrompt("Category");
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                int sid=spinner.getSelectedItemPosition();
-                Toast.makeText(getBaseContext(), "You have selected City : " + cities[sid],
-                        Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
-
-
         SubCategoryItem = new ArrayList<SubCategoryItem>();
         for (int i = 0; i < title.length; i++) {
             SubCategoryItem item = new SubCategoryItem(thumbnail[i], title[i], location[i], distance[i]);
@@ -109,6 +92,58 @@ public class ShoppingBookAndStationety extends AppCompatActivity implements
                 R.layout.sub_category_item, SubCategoryItem);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
+
+        initSpinner();
+    }
+
+    // Initialization spinner
+    private void initSpinner() {
+        spinner_category = (Spinner) findViewById(R.id.spinner_category);
+        spinner_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            //get strings of first item
+            String firstItem = String.valueOf(spinner_category.getSelectedItem());
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (firstItem.equals(String.valueOf(spinner_category.getSelectedItem()))) {
+                    // ToDo when first item is selected
+                } else {
+                    Toast.makeText(parent.getContext(),
+                            "You have selected : " + parent.getItemAtPosition(position).toString(),
+                            Toast.LENGTH_LONG).show();
+                    // Todo when item is selected by the user
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinner_sort = (Spinner) findViewById(R.id.spinner_sort);
+        spinner_sort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            //get strings of first item
+            String firstItem = String.valueOf(spinner_sort.getSelectedItem());
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (firstItem.equals(String.valueOf(spinner_sort.getSelectedItem()))) {
+                    // ToDo when first item is selected
+                } else {
+                    Toast.makeText(parent.getContext(),
+                            "You have selected : " + parent.getItemAtPosition(position).toString(),
+                            Toast.LENGTH_LONG).show();
+                    // Todo when item is selected by the user
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
@@ -198,6 +233,11 @@ public class ShoppingBookAndStationety extends AppCompatActivity implements
             this.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
 

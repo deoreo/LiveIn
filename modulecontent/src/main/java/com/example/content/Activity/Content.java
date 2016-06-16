@@ -24,6 +24,8 @@ import android.widget.Toast;
 import com.example.content.R;
 import com.example.profile.Activity.ProfileActivity;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by M. Asrof Bayhaqqi on 6/7/2016.
  */
@@ -127,11 +129,7 @@ public class Content extends AppCompatActivity {
                 //Check to see which item was being clicked and perform appropriate action
 
                 int i = menuItem.getItemId();
-                if (i == R.id.user_profile) {/*Toast.makeText(getApplicationContext(), "About Us", Toast.LENGTH_SHORT).show();*/
-                    Intent intent_about_us = new Intent(Content.this, ProfileActivity.class);
-                    startActivity(intent_about_us);
-                    return true;
-                } else if (i == R.id.about_us) {/*Toast.makeText(getApplicationContext(), "About Us", Toast.LENGTH_SHORT).show();*/
+                if (i == R.id.about_us) {/*Toast.makeText(getApplicationContext(), "About Us", Toast.LENGTH_SHORT).show();*/
                     Intent intent_about_us = new Intent(Content.this, AboutUs.class);
                     startActivity(intent_about_us);
                     Content.this.finish();
@@ -268,7 +266,8 @@ public class Content extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Search", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.profile) {
-            Toast.makeText(getApplicationContext(), "Profile", Toast.LENGTH_SHORT).show();
+            Intent intent_about_us = new Intent(Content.this, ProfileActivity.class);
+            startActivity(intent_about_us);
             return true;
         } else if (id == R.id.map) {
             Toast.makeText(getApplicationContext(), "Map", Toast.LENGTH_SHORT).show();
@@ -280,5 +279,10 @@ public class Content extends AppCompatActivity {
             this.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

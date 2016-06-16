@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    tools:context="com.example.content.Activity.AboutUs">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="false"
+        android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/about" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imageView"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:paddingTop="@dimen/activity_vertical_margin">
+
+                    <TextView
+                        android:id="@+id/city_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginBottom="16dp"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/area"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/city_name"
+                        android:layout_marginBottom="8dp"
+                        android:text="Area"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/white" />
+
+                    <RelativeLayout
+                        android:id="@+id/layout_area"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/area"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="16dp">
+
+                        <View
+                            android:id="@+id/border_area"
+                            android:layout_width="1dp"
+                            android:layout_height="35dp"
+                            android:background="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/city"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginLeft="8dp"
+                            android:text="City"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/city_area"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="150dp"
+                            android:layout_toRightOf="@+id/border_area"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/metro"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@+id/city"
+                            android:layout_marginLeft="8dp"
+                            android:text="Metro"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/metro_area"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/city_area"
+                            android:layout_marginLeft="150dp"
+                            android:layout_toRightOf="@+id/border_area"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/population"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/layout_area"
+                        android:layout_marginBottom="8dp"
+                        android:text="Population"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/white" />
+
+                    <RelativeLayout
+                        android:id="@+id/layout_population"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/population"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="16dp">
+
+                        <View
+                            android:id="@+id/border_population"
+                            android:layout_width="1dp"
+                            android:layout_height="50dp"
+                            android:background="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/resident"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginLeft="8dp"
+                            android:text="Resident"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/resident_population"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="150dp"
+                            android:layout_toRightOf="@+id/border_population"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/employement"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@+id/resident"
+                            android:layout_marginLeft="8dp"
+                            android:text="Employment"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/employment_population"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/resident_population"
+                            android:layout_marginLeft="150dp"
+                            android:layout_toRightOf="@+id/border_population"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/jobs"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@+id/employement"
+                            android:layout_marginLeft="8dp"
+                            android:text="Jobs"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/jobs_population"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/employment_population"
+                            android:layout_marginLeft="150dp"
+                            android:layout_toRightOf="@+id/border_population"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/information"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/layout_population"
+                        android:layout_marginBottom="8dp"
+                        android:text="Information"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/white" />
+
+                    <RelativeLayout
+                        android:id="@+id/layout_information"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/information"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="16dp">
+
+                        <View
+                            android:id="@+id/border_information"
+                            android:layout_width="1dp"
+                            android:layout_height="150dp"
+                            android:background="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/jobs3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginLeft="8dp"
+                            android:text="Jobs"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/jobs_information"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="150dp"
+                            android:layout_toRightOf="@+id/border_information"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/trees"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@+id/jobs3"
+                            android:layout_marginLeft="8dp"
+                            android:text="Trees"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/trees_information"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/jobs_information"
+                            android:layout_marginLeft="150dp"
+                            android:layout_toRightOf="@+id/border_information"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/roads"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@+id/trees"
+                            android:layout_marginLeft="8dp"
+                            android:text="Roads"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/roads_information"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/trees_information"
+                            android:layout_marginLeft="150dp"
+                            android:layout_toRightOf="@+id/border_information"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/house"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@+id/roads"
+                            android:layout_marginLeft="8dp"
+                            android:text="House"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/house_information"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/roads_information"
+                            android:layout_marginLeft="150dp"
+                            android:layout_toRightOf="@+id/border_information"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/shop_house"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@+id/house_information"
+                            android:layout_marginLeft="8dp"
+                            android:text="Shop House"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/shop_house_information"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/house_information"
+                            android:layout_marginLeft="150dp"
+                            android:layout_toRightOf="@+id/border_information"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/school"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@+id/shop_house"
+                            android:layout_marginLeft="8dp"
+                            android:text="School"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/school_information"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/shop_house_information"
+                            android:layout_marginLeft="150dp"
+                            android:layout_toRightOf="@+id/border_information"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/international_school_information"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/school_information"
+                            android:layout_marginLeft="150dp"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/service_apartment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@+id/international_school_information"
+                            android:layout_marginLeft="8dp"
+                            android:text="Service Apartment"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/service_apartment_information"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/international_school_information"
+                            android:layout_marginLeft="150dp"
+                            android:layout_toRightOf="@+id/border_information"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/white" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/time_zone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/layout_information"
+                        android:text="Time zone"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/timezone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/layout_information"
+                        android:layout_marginLeft="85dp"
+                        android:layout_toRightOf="@+id/time_zone"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/area_codes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/time_zone"
+                        android:text="Area code(s)"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/area_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/timezone"
+                        android:layout_marginLeft="85dp"
+                        android:layout_toRightOf="@+id/time_zone"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/vehicle_registration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/area_codes"
+                        android:layout_marginBottom="16dp"
+                        android:text="Vehicle registration"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/vehicle_regitration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/area_code"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginLeft="85dp"
+                        android:layout_toRightOf="@+id/time_zone"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/websites"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/vehicle_registration"
+                        android:text="Website"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/website"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/vehicle_regitration"
+                        android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@+id/websites"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorPrimary" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+    </ScrollView>
+</LinearLayout>

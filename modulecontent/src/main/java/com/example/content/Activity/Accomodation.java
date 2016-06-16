@@ -1,5 +1,6 @@
 package com.example.content.Activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.example.content.R;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by Administrator on 10/06/2016.
@@ -140,5 +143,10 @@ public class Accomodation extends AppCompatActivity {
         Intent intent_accomodation = new Intent(Accomodation.this, Home.class);
         startActivity(intent_accomodation);
         Accomodation.this.finish();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

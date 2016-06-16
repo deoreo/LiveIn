@@ -1,11 +1,14 @@
 package com.example.content.Activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.example.content.R;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by Administrator on 13/06/2016.
@@ -22,7 +25,7 @@ public class ShoppingElectronicDetail extends AppCompatActivity {
         bar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(bar);
 
-        getSupportActionBar().setTitle("ShoppingElectronic Detail");
+        getSupportActionBar().setTitle("Electronic Detail");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -39,5 +42,10 @@ public class ShoppingElectronicDetail extends AppCompatActivity {
             this.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

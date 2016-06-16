@@ -16,8 +16,10 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="24dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="50dp"
-        android:background="@mipmap/ic_launcher" />
+        android:layout_marginTop="65dp"
+        android:background="@drawable/album1"
+        android:onClick="GoToProfile"
+        />
 
     <TextView
         android:id="@+id/username"
@@ -30,10 +32,13 @@
         android:layout_toRightOf="@+id/profile_image"
         android:gravity="left"
         android:paddingBottom="4dp"
-        android:text="Sumanto Prasetyo"
+        android:text="Januar Salman"
         android:textColor="#fff"
         android:textSize="20dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        fontPath="fonts/HelveticaBold.ttf"
+        android:onClick="GoToProfile"
+        />
 
     <TextView
         android:id="@+id/email"

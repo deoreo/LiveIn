@@ -43,17 +43,23 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent">
                         <ImageView
+                            android:id="@+id/bckgrndImageView4"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/view0" />
+                        <ImageView
                             android:id="@+id/bckgrndImageView8"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/about" />
+                            android:src="@drawable/view1" />
                         <ImageView
                             android:id="@+id/bckgrndImageView7"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:scaleType="centerCrop"
-                            android:src="@mipmap/ic_launcher" />
+                            android:src="@drawable/view2" />
                         <ImageView
                             android:id="@+id/bckgrndImageView6"
                             android:layout_width="fill_parent"
@@ -65,7 +71,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:scaleType="centerCrop"
-                            android:src="@mipmap/ic_launcher"/>
+                            android:src="@drawable/mall"/>
                     </ViewFlipper>
                 </LinearLayout>
 

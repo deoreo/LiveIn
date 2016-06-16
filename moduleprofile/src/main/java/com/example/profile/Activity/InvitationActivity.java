@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.example.profile.R;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class InvitationActivity extends AppCompatActivity {
 
     @Override
@@ -45,7 +47,7 @@ public class InvitationActivity extends AppCompatActivity {
 
 
     public void lippo(View view) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.lippocikarang.com"));
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.lippo-cikarang.com/"));
         startActivity(browserIntent);
     }
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -65,5 +67,8 @@ public class InvitationActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 }

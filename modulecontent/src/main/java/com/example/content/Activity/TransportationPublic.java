@@ -1,6 +1,7 @@
 package com.example.content.Activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -16,6 +17,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class TransportationPublic extends FragmentActivity implements OnMapReadyCallback {
 
@@ -42,7 +45,7 @@ public class TransportationPublic extends FragmentActivity implements OnMapReady
      * installed Google Play services and returned to the app.
      */
     @Override
-    public void onMapReady(final GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap) {
         /*mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
@@ -50,10 +53,7 @@ public class TransportationPublic extends FragmentActivity implements OnMapReady
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
 
-        this.mMap = googleMap;
-
-
-
+        mMap = googleMap;
 
         //mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMapToolbarEnabled(true);
@@ -76,5 +76,10 @@ public class TransportationPublic extends FragmentActivity implements OnMapReady
                 .tilt(30)                   // Sets the tilt of the camera to 30 degrees
                 .build();                   // Creates a CameraPosition from the builder
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

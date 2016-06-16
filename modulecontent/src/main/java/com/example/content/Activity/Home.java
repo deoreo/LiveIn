@@ -3,9 +3,11 @@ package com.example.content.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +26,9 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.example.content.R;
+import com.example.profile.Activity.ProfileActivity;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by M. Asrof Bayhaqqi on 6/7/2016.
@@ -64,8 +69,8 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 /*Snackbar.make(linearLayout, "Dining", Snackbar.LENGTH_LONG).show();*/
-                Intent intent_entertaiment1 = new Intent(Home.this, Dining.class);
-                startActivity(intent_entertaiment1);
+                Intent intent_dining = new Intent(Home.this, Dining.class);
+                startActivity(intent_dining);
                 Home.this.finish();
             }
         });
@@ -91,8 +96,8 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 /*Snackbar.make(linearLayout, "Transportation", Snackbar.LENGTH_LONG).show();*/
-                Intent intent_entertaiment = new Intent(Home.this, Transportation.class);
-                startActivity(intent_entertaiment);
+                Intent intent_transportation = new Intent(Home.this, Transportation.class);
+                startActivity(intent_transportation);
                 Home.this.finish();
             }
         });
@@ -105,7 +110,9 @@ public class Home extends AppCompatActivity {
         btn_call_tbd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(linearLayout, "Call (TBD)", Snackbar.LENGTH_LONG).show();
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:+6285785561779"));
+                startActivity(intent);
             }
         });
         btn_discount_coupon.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +130,7 @@ public class Home extends AppCompatActivity {
         btn_instagram.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(linearLayout, "", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(linearLayout, "Instagram", Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -204,16 +211,16 @@ public class Home extends AppCompatActivity {
                     Home.this.finish();
                     return true;
                 } else if (i == R.id.photo_gallery) {
-                    Toast.makeText(getApplicationContext(), "Photo Gallery", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(linearLayout, "Photo Gallery", Snackbar.LENGTH_LONG).show();
                     return true;
                 } else if (i == R.id.help) {
-                    Toast.makeText(getApplicationContext(), "Help", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(linearLayout, "Help", Snackbar.LENGTH_LONG).show();
                     return true;
                 } else if (i == R.id.useful_information) {
-                    Toast.makeText(getApplicationContext(), "Useful Information", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(linearLayout, "Usefull Information", Snackbar.LENGTH_LONG).show();
                     return true;
                 } else {
-                    Toast.makeText(getApplicationContext(), "Somethings Wrong", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(linearLayout, "Feature is not available", Snackbar.LENGTH_LONG).show();
                     return true;
                 }
             }
@@ -255,6 +262,14 @@ public class Home extends AppCompatActivity {
         viewFlipper.setAutoStart(true);
         viewFlipper.setFlipInterval(5000);
         viewFlipper.startFlipping();
+        viewFlipper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_news = new Intent(Home.this, GettingToKnow.class);
+                startActivity(intent_news);
+                Home.this.finish();
+            }
+        });
     }
 
     private void initView() {
@@ -299,10 +314,12 @@ public class Home extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Search", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.profile) {
-            Toast.makeText(getApplicationContext(), "Profile", Toast.LENGTH_SHORT).show();
+            Intent intent_about_us = new Intent(Home.this, ProfileActivity.class);
+            startActivity(intent_about_us);
             return true;
         } else if (id == R.id.map) {
-            Toast.makeText(getApplicationContext(), "Map", Toast.LENGTH_SHORT).show();
+            Intent intent_about_us = new Intent(Home.this, TransportationPublic.class);
+            startActivity(intent_about_us);
             return true;
         } else if (id == R.id.download) {
             Toast.makeText(getApplicationContext(), "Download", Toast.LENGTH_SHORT).show();
@@ -311,5 +328,25 @@ public class Home extends AppCompatActivity {
             this.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    public void GoToProfile(View v){
+        Intent intent_about_us = new Intent(Home.this, ProfileActivity.class);
+        startActivity(intent_about_us);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

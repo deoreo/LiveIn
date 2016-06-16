@@ -1,5 +1,6 @@
 package com.example.content.Activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +9,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.content.R;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by SMK Telkom SP Malang on 10/06/2016.
@@ -24,16 +27,10 @@ public class DiningBakeryDetail extends AppCompatActivity {
         bar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(bar);
 
-        getSupportActionBar().setTitle("Dining Bakery Detail");
+        getSupportActionBar().setTitle("Bakery Detail");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-    }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
     }
 
     @Override
@@ -44,21 +41,14 @@ public class DiningBakeryDetail extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.search) {
-            Toast.makeText(getApplicationContext(), "Search", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.profile){
-            Toast.makeText(getApplicationContext(), "Profile", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.map) {
-            Toast.makeText(getApplicationContext(), "Map", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.download){
-            Toast.makeText(getApplicationContext(), "Download", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == android.R.id.home){
+        if (id == android.R.id.home){
             this.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

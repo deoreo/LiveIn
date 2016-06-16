@@ -1,5 +1,6 @@
 package com.example.content.Activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 import com.example.content.Adapter.EntertaimentRecommendedAdapter;
 import com.example.content.R;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by SMK Telkom SP Malang on 10/06/2016.
  */
@@ -24,7 +27,7 @@ public class DiningRecommended extends AppCompatActivity {
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
-    Spinner spinner;
+    Spinner spinner_category, spinner_sort;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,7 @@ public class DiningRecommended extends AppCompatActivity {
         bar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(bar);
 
-        getSupportActionBar().setTitle("Recommended Dining");
+        getSupportActionBar().setTitle("Dining Recommended");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -47,31 +50,36 @@ public class DiningRecommended extends AppCompatActivity {
         mAdapter = new EntertaimentRecommendedAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
-        spinner = (Spinner) findViewById(R.id.spinner);
-        spinner.setOnItemSelectedListener(new ItemSelectedListener());
+        initSpinner();
     }
 
-    public class ItemSelectedListener implements AdapterView.OnItemSelectedListener {
+    // Initialization spinner
+    private void initSpinner() {
+        spinner_category = (Spinner) findViewById(R.id.spinner_category);
+        spinner_category.setVisibility(View.INVISIBLE);
+        spinner_sort = (Spinner) findViewById(R.id.spinner_sort);
+        spinner_sort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-        //get strings of first item
-        String firstItem = String.valueOf(spinner.getSelectedItem());
+            //get strings of first item
+            String firstItem = String.valueOf(spinner_sort.getSelectedItem());
 
-        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-            if (firstItem.equals(String.valueOf(spinner.getSelectedItem()))) {
-                // ToDo when first item is selected
-            } else {
-                Toast.makeText(parent.getContext(),
-                        "You have selected : " + parent.getItemAtPosition(pos).toString(),
-                        Toast.LENGTH_LONG).show();
-                // Todo when item is selected by the user
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (firstItem.equals(String.valueOf(spinner_sort.getSelectedItem()))) {
+                    // ToDo when first item is selected
+                } else {
+                    Toast.makeText(parent.getContext(),
+                            "You have selected : " + parent.getItemAtPosition(position).toString(),
+                            Toast.LENGTH_LONG).show();
+                    // Todo when item is selected by the user
+                }
             }
-        }
 
-        @Override
-        public void onNothingSelected(AdapterView<?> arg) {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-        }
-
+            }
+        });
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,5 +112,10 @@ public class DiningRecommended extends AppCompatActivity {
             this.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

@@ -7,6 +7,12 @@
     android:orientation="horizontal"
     android:padding="16dp">
 
+    <RelativeLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp">
+
     <ImageView
         android:id="@+id/thumbnail"
         android:layout_width="100dp"
@@ -50,4 +56,11 @@
         android:text="Distance"
         android:textColor="@android:color/white" />
 
+    </RelativeLayout>
+
+    <View
+        android:layout_below="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/white" />
 </RelativeLayout>
