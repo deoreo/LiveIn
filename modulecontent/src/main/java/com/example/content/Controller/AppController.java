@@ -1,5 +1,6 @@
 package com.example.content.Controller;
 
+import android.app.Activity;
 import android.app.Application;
 import android.text.TextUtils;
 
@@ -18,11 +19,16 @@ public class AppController extends Application {
     private ImageLoader mImageLoader;
 
     private static AppController mInstance;
+    private Activity mActivity;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+    }
+
+    public AppController(Activity activity){
+        this.mActivity = activity;
     }
 
     public static synchronized AppController getInstance() {
@@ -31,7 +37,7 @@ public class AppController extends Application {
 
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+            mRequestQueue = Volley.newRequestQueue(mActivity);
         }
 
         return mRequestQueue;

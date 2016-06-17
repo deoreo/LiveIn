@@ -29,4 +29,12 @@
         <item name="colorControlNormal">@color/white</item>
     </style>
 
+
+    <style name="spinner_style" >
+        <item name="android:background">@drawable/rounded_spinner</item>
+    </style>
+    <style name="spinner_style2" >
+        <item name="android:background">@drawable/spinner</item>
+    </style>
+
 </resources>

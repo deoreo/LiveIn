@@ -1,7 +1,6 @@
 package com.example.content.Activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -32,15 +31,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
 public class AboutUs extends AppCompatActivity {
 
     Toolbar bar;
     private static String TAG = AboutUs.class.getSimpleName();
-
-    // Progress dialog
-    private ProgressDialog pDialog;
 
     // textview to show the parsed response
     private TextView city_name, city_area, metro_area, resident_population,
@@ -49,8 +43,6 @@ public class AboutUs extends AppCompatActivity {
             international_school_information, service_apartment_information, timezone,
             area_code, vehicle_regitration, website;
 
-    private View border_area, border_population, border_information;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
     private LinearLayout linearLayout;
     private RelativeLayout relativeLayout;
 
@@ -65,16 +57,17 @@ public class AboutUs extends AppCompatActivity {
         getSupportActionBar().setTitle("About Us");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        initPDialog();
+
         initView();
-        //downData();
+
+
+
     }
 
     // Initialization view
     private void initView() {
         linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
         relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
-        relativeLayout.setVisibility(View.INVISIBLE);
         city_name = (TextView) findViewById(R.id.city_name);
         city_area = (TextView) findViewById(R.id.city_area);
         metro_area = (TextView) findViewById(R.id.metro_area);
@@ -93,120 +86,25 @@ public class AboutUs extends AppCompatActivity {
         area_code = (TextView) findViewById(R.id.area_code);
         vehicle_regitration = (TextView) findViewById(R.id.vehicle_regitration);
         website = (TextView) findViewById(R.id.website);
-    }
 
-    // Initialization progress dialog
-    private void initPDialog() {
-        pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Please wait...");
-        pDialog.setCancelable(false);
-        pDialog.setCanceledOnTouchOutside(false);
-    }
-
-    // Download data
-    private void downData()
-    {
-        if(!ConnUtil.isNetConnected(this))
-        {
-            showErrorConnection();
-            return;
-        }
-        sendRequest();
-    }
-
-    // Seng Request GET
-    private void sendRequest() {
-
-        showpDialog();
-
-        JsonArrayRequest req = new JsonArrayRequest(AppConfig.URL_ABOUS_US,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Log.d(TAG, response.toString());
-
-                        try {
-                            // Parsing json array response
-                            // loop through each json object
-                            for (int i = 0; i < response.length(); i++) {
-
-                                JSONObject city = (JSONObject) response
-                                        .get(i);
-                                relativeLayout.setVisibility(View.VISIBLE);
-                                city_name.setText(city.getString("city_name"));
-                                city_area.setText(city.getString("city_area") + " km2");
-                                metro_area.setText(city.getString("metro_area") +  " km2");
-                                resident_population.setText(city.getString("resident_population") +  " People");
-                                employment_population.setText(city.getString("employment_population") +  " People");
-                                jobs_population.setText(city.getString("jobs_population") +  " Jobs");
-                                jobs_information.setText(city.getString("jobs_information") +  " Jobs");
-                                trees_information.setText(city.getString("trees_information") +  " Trees");
-                                roads_information.setText(city.getString("roads_information") +  " km");
-                                house_information.setText(city.getString("house_information") +  " units of built houses");
-                                shop_house_information.setText(city.getString("shop_house_information") +  " units");
-                                school_information.setText(city.getString("school_information") +  " Schools with ");
-                                international_school_information.setText(city.getString("international_school_information") +  " International Schools");
-                                service_apartment_information.setText(city.getString("service_apartment_information") + " industries");
-                                timezone.setText(city.getString("timezone"));
-                                area_code.setText(city.getString("area_code"));
-                                vehicle_regitration.setText(city.getString("vehicle_regitration"));
-                                website.setText(city.getString("website"));
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(getApplicationContext(),
-                                    "Error: " + e.getMessage(),
-                                    Toast.LENGTH_LONG).show();
-                        }
-
-                        hidepDialog();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
-                hidepDialog();
-            }
-        });
-
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(req);
-    }
-
-    // Show dialog
-    private void showpDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
-
-    // Hide dialog
-    private void hidepDialog() {
-        if (pDialog.isShowing())
-            pDialog.dismiss();
-    }
-
-    // Show snackbar error
-    private void showErrorConnection() {
-        Snackbar snackbar = Snackbar
-                .make(linearLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                .setAction("RETRY", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        downData();
-                    }
-                });
-
-        // Changing message text color
-        snackbar.setActionTextColor(Color.RED);
-
-        // Changing action button text color
-        View sbView = snackbar.getView();
-        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(Color.YELLOW);
-        snackbar.show();
+        city_name.setText("Lippo Cikarang");
+        city_area.setText("0000 km2 (0000 sq mi)");
+        metro_area.setText("0000 km2 (0000 sq mi)");
+        resident_population.setText("47.700 People");
+        employment_population.setText("448.000 People");
+        jobs_population.setText("89.600 Jobs");
+        jobs_information.setText("89.600 Jobs");
+        trees_information.setText("93.800 trees");
+        roads_information.setText("281 km");
+        house_information.setText("14.000 units of built houses");
+        shop_house_information.setText("1216 units");
+        school_information.setText("21 Schools with ");
+        international_school_information.setText("2 International Schools");
+        service_apartment_information.setText("920 industries");
+        timezone.setText("WIB (UTC+7)");
+        area_code.setText("+62 21");
+        vehicle_regitration.setText("B");
+        website.setText("www.lippo-cikarang.co.id");
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -223,13 +121,7 @@ public class AboutUs extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.search) {
-            Toast.makeText(getApplicationContext(), "Search", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.refresh) {
-            //downData();
-            return true;
-        } else if (id == R.id.profile) {
+       if (id == R.id.profile) {
             Toast.makeText(getApplicationContext(), "Profile", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.map) {
@@ -252,10 +144,5 @@ public class AboutUs extends AppCompatActivity {
         Intent intent_about_us = new Intent(AboutUs.this, Home.class);
         startActivity(intent_about_us);
         AboutUs.this.finish();
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

@@ -7,8 +7,16 @@
     <string name="hint_password">Password</string>
 
     <string name="judul_spinner">Pilih Jenis Kelamin</string>
+
     <string-array name="jk_array">
-        <item>Pria</item>
-        <item>Wanita</item>
+        <item>Gender</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="l_array">
+        <item>Language</item>
+        <item>Indonesian</item>
+        <item>English</item>
     </string-array>
 </resources>

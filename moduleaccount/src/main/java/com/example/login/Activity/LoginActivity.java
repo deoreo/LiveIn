@@ -22,7 +22,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class LoginActivity extends Activity {
 
     private Button btnLogin;
-    private TextView signup;
+    private TextView signup, forget;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +33,7 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         signup = (TextView) findViewById(R.id.signup);
+        forget = (TextView) findViewById(R.id.forgot);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,11 +44,20 @@ public class LoginActivity extends Activity {
             }
         });
 
+        forget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, ForgetActivity.class);
+                startActivity(intent);
+            }
+        });
+
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

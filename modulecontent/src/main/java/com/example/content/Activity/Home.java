@@ -105,6 +105,9 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Snackbar.make(linearLayout, "Gallery", Snackbar.LENGTH_LONG).show();
+                Intent intent_gallery= new Intent(Home.this, PhotoGallery.class);
+                startActivity(intent_gallery);
+                Home.this.finish();
             }
         });
         btn_call_tbd.setOnClickListener(new View.OnClickListener() {
@@ -211,13 +214,17 @@ public class Home extends AppCompatActivity {
                     Home.this.finish();
                     return true;
                 } else if (i == R.id.photo_gallery) {
-                    Snackbar.make(linearLayout, "Photo Gallery", Snackbar.LENGTH_LONG).show();
+                    Intent intent_gallery= new Intent(Home.this, PhotoGallery.class);
+                    startActivity(intent_gallery);
+                    Home.this.finish();
                     return true;
                 } else if (i == R.id.help) {
                     Snackbar.make(linearLayout, "Help", Snackbar.LENGTH_LONG).show();
                     return true;
                 } else if (i == R.id.useful_information) {
-                    Snackbar.make(linearLayout, "Usefull Information", Snackbar.LENGTH_LONG).show();
+                    Intent intent_public_services = new Intent(Home.this, Information.class);
+                    startActivity(intent_public_services);
+                    Home.this.finish();
                     return true;
                 } else {
                     Snackbar.make(linearLayout, "Feature is not available", Snackbar.LENGTH_LONG).show();
