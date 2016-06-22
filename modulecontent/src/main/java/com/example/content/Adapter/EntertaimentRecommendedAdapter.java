@@ -56,10 +56,10 @@ public class EntertaimentRecommendedAdapter extends RecyclerView.Adapter<Enterta
 
         viewHolder.name.setText(recommendedItem.getName());
         viewHolder.address.setText(recommendedItem.getAddress());
-        /*viewHolder.category.setText(recommendedItem.getCategory());
+        viewHolder.category.setText(recommendedItem.getSubcategory());
         viewHolder.distance.setText(recommendedItem.getDistance());
-        viewHolder.info.setText(recommendedItem.getInfo());*/
-        viewHolder.rating.setRating(recommendedItem.getRating());
+        viewHolder.info.setText(recommendedItem.getInfo());
+        viewHolder.rating.setRating(Float.parseFloat(recommendedItem.getRating()));
         viewHolder.list.setTag(i);
     }
 
@@ -73,9 +73,9 @@ public class EntertaimentRecommendedAdapter extends RecyclerView.Adapter<Enterta
         public NetworkImageView avatar;
         public TextView name;
         public TextView address;
-        /*public TextView category;
+        public TextView category;
         public TextView distance;
-        public TextView info;*/
+        public TextView info;
         public RatingBar rating;
         public CardView list;
 
@@ -85,9 +85,9 @@ public class EntertaimentRecommendedAdapter extends RecyclerView.Adapter<Enterta
             avatar = (NetworkImageView) itemView.findViewById(R.id.avatar);
             name = (TextView) itemView.findViewById(R.id.name);
             address = (TextView) itemView.findViewById(R.id.address);
-            /*category = (TextView)itemView.findViewById(R.id.category);
+            category = (TextView)itemView.findViewById(R.id.category);
             distance = (TextView)itemView.findViewById(R.id.distance);
-            info = (TextView)itemView.findViewById(R.id.info);*/
+            info = (TextView)itemView.findViewById(R.id.info);
             rating = (RatingBar) itemView.findViewById(R.id.rating);
             list = (CardView) itemView.findViewById(R.id.list);
 

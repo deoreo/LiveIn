@@ -94,6 +94,7 @@ public class Entertaiment extends AppCompatActivity {
                 startActivity(intent_beauty);
             }
         });
+        btn_others.setVisibility(View.GONE);
         btn_others.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

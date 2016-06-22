@@ -90,6 +90,7 @@ public class EntertaimentArt extends AppCompatActivity implements
         downData();
     }
 
+    //Calculate distance
     private int calculateDistance(double latitude, double longitude){
         Location locationA = new Location("point A");
 

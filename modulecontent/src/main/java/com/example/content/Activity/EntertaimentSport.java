@@ -39,6 +39,7 @@ import com.example.content.Adapter.EntertaimentArtAdapter;
 import com.example.content.Adapter.EntertaimentSportAdapter;
 import com.example.content.Controller.AppConfig;
 import com.example.content.Controller.AppController;
+import com.example.content.Controller.AppData;
 import com.example.content.Model.SubCategoryItem;
 import com.example.content.Model.SubCategoryModel;
 import com.example.content.R;
@@ -59,7 +60,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * Created by M. Asrof Bayhaqqi on 6/9/2016.
  */
 public class EntertaimentSport extends AppCompatActivity implements
-        AdapterView.OnItemClickListener, LocationListener {
+        AdapterView.OnItemClickListener {
 
     // Log tag
     private static final String TAG = EntertaimentSport.class.getSimpleName();
@@ -71,11 +72,6 @@ public class EntertaimentSport extends AppCompatActivity implements
     private LinearLayout linearLayout;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     Spinner spinner_category, spinner_sort;
-
-    //Location
-    protected LocationManager locationManager;
-    private static double cur_latitude;
-    private static double cur_longitude;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,7 +85,6 @@ public class EntertaimentSport extends AppCompatActivity implements
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        initLocation();
         initView();
         initSwipeRefresh();
         initListView();
@@ -97,40 +92,11 @@ public class EntertaimentSport extends AppCompatActivity implements
         downData();
     }
 
-    // Initialization location
-    private void initLocation() {
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        /*locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);*/
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if(location != null) {
-            cur_latitude = location.getLatitude();
-            cur_longitude = location.getLongitude();
-            String msg = "New Latitude: " + location.getLatitude() + "\n"
-                    + "New Longitude: " + location.getLongitude();
-
-            Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
-            downData();
-        } else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-            downData();
-        }
-    }
-
     private int calculateDistance(double latitude, double longitude){
         Location locationA = new Location("point A");
 
-        locationA.setLatitude(cur_latitude);
-        locationA.setLongitude(cur_longitude);
+        locationA.setLatitude(AppData.myLatitude);
+        locationA.setLongitude(AppData.myLongitude);
 
         Location locationB = new Location("point B");
 
@@ -142,37 +108,6 @@ public class EntertaimentSport extends AppCompatActivity implements
 
         return distanceInKM;
     }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        String msg = "New Latitude: " + location.getLatitude() + "\n"
-                + "New Longitude: " + location.getLongitude();
-
-        Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
-
-        cur_latitude = location.getLatitude();
-        cur_longitude = location.getLongitude();
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-        Toast.makeText(getBaseContext(), R.string.gps_on,
-                Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        startActivity(intent);
-        Toast.makeText(getBaseContext(), R.string.gps_off,
-                Toast.LENGTH_SHORT).show();
-    }
-
     // Initialization view
     private void initView() {
         linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
