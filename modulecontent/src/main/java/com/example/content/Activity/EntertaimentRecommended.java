@@ -1,20 +1,43 @@
 package com.example.content.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
 import com.example.content.Adapter.EntertaimentRecommendedAdapter;
+import com.example.content.Controller.AppConfig;
+import com.example.content.Controller.AppController;
+import com.example.content.Model.RecommendedModel;
 import com.example.content.R;
+import com.example.content.Util.ConnUtil;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -23,16 +46,23 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 public class EntertaimentRecommended extends AppCompatActivity {
 
+    // Log tag
+    private static final String TAG = EntertaimentRecommended.class.getSimpleName();
+
+    private List<RecommendedModel> listRecomendedItem;
+
     Toolbar bar;
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
     Spinner spinner_category, spinner_sort;
+    private LinearLayout linearLayout;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.recommended);
+        setContentView(R.layout.recommended_new);
 
         bar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(bar);
@@ -41,16 +71,30 @@ public class EntertaimentRecommended extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        initView();
+        initSwipeRefresh();
+        initRecyclerView();
+        initSpinner();
+        downData();
+    }
+
+    // Initialization view
+    private void initView() {
+        linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
+    }
+
+    // Initialization Recycler view
+    private void initRecyclerView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+
         mRecyclerView.setHasFixedSize(true);
+        listRecomendedItem = new ArrayList<>();
 
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new EntertaimentRecommendedAdapter();
+        mAdapter = new EntertaimentRecommendedAdapter(listRecomendedItem,this);
         mRecyclerView.setAdapter(mAdapter);
-
-        initSpinner();
     }
 
     // Initialization spinner
@@ -80,6 +124,95 @@ public class EntertaimentRecommended extends AppCompatActivity {
 
             }
         });
+    }
+
+    // Initialization swiperefresh
+    private void initSwipeRefresh() {
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                downData();
+            }
+        });
+        mSwipeRefreshLayout.setRefreshing(true);
+    }
+
+    // Download data
+    private void downData() {
+        if (!ConnUtil.isNetConnected(this)) {
+            showErrorConnection();
+            mSwipeRefreshLayout.setRefreshing(false);
+            return;
+        }
+        sendRequest();
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    // Seng Request GET
+    private void sendRequest() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.URL_RECOMMENDED+"14",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, response.toString());
+
+                        // clear art in art array for update and add new art
+                        listRecomendedItem.clear();
+
+                        try {
+                            JSONArray jArray = new JSONArray(response);
+
+                            for (int i = 0; i < jArray.length(); i++) {
+
+                                JSONObject object = jArray.getJSONObject(i);
+                                RecommendedModel recommendedItem = new RecommendedModel();
+                                recommendedItem.setAvatar(object.getString("avatar"));
+                                recommendedItem.setName(object.getString("nama_tenant"));
+                                recommendedItem.setAddress(object.getString("address"));
+                                listRecomendedItem.add(i,recommendedItem);
+                                mAdapter.notifyDataSetChanged();
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(),
+                                    "Error: " + e.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+
+    // Show snackbar error
+    private void showErrorConnection() {
+        Snackbar snackbar = Snackbar
+                .make(linearLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                .setAction("RETRY", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        downData();
+                    }
+                });
+
+        // Changing message text color
+        snackbar.setActionTextColor(Color.RED);
+
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.YELLOW);
+        snackbar.show();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

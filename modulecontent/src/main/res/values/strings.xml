@@ -28,4 +28,10 @@
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyCUF_74Lj6T1LvD3j-ln_yexIn3kXcOXac
     </string>
+
+    <string name="gps_on">GPS is turned ON !</string>
+    <string name="gps_off">GPS is turned OFF !</string>
+    <string name="no_connection">No internet connection!!</string>
+    <string name="retry">RETRY</string>
+
 </resources>

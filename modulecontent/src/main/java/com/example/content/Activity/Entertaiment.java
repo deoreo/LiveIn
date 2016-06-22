@@ -155,20 +155,11 @@ public class Entertaiment extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Download", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == android.R.id.home) {
-            Intent intent_entertaiment = new Intent(Entertaiment.this, Home.class);
-            startActivity(intent_entertaiment);
-            Entertaiment.this.finish();
+            this.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent_entertaiment = new Intent(Entertaiment.this, Home.class);
-        startActivity(intent_entertaiment);
-        Entertaiment.this.finish();
-    }
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));

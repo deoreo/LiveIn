@@ -47,14 +47,14 @@
         android:textColor="@android:color/white" />
 
     <TextView
-        android:id="@+id/phone"
+        android:id="@+id/distance"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/address"
         android:layout_below="@+id/address"
         android:paddingLeft="16dp"
-        android:text="Phone"
+        android:text="Distance"
         android:textColor="@android:color/white" />
 
     </RelativeLayout>

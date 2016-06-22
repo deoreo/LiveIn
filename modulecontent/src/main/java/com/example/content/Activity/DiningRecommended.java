@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.content.Adapter.DiningRecommendedAdapter;
 import com.example.content.Adapter.EntertaimentRecommendedAdapter;
 import com.example.content.R;
 
@@ -47,7 +48,7 @@ public class DiningRecommended extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new EntertaimentRecommendedAdapter();
+        mAdapter = new DiningRecommendedAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
         initSpinner();

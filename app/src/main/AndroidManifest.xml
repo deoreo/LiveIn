@@ -106,8 +106,6 @@
         <activity android:name="com.example.content.Activity.GettingToKnowDetail" />
 
         <!-- Entertaiment -->
-        <activity android:name="com.example.content.Activity.HotelActivity" />
-        <activity android:name="com.example.content.Activity.HotelDetail" />
         <activity android:name="com.example.content.Activity.Entertaiment" />
         <activity android:name="com.example.content.Activity.EntertaimentRecommended" />
         <activity android:name="com.example.content.Activity.EntertaimentRecommendedDetail" />

@@ -1,27 +1,57 @@
 package com.example.content.Activity;
 
+import android.Manifest;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.example.content.Adapter.EntertaimentArtAdapter;
 import com.example.content.Adapter.EntertaimentSportAdapter;
+import com.example.content.Controller.AppConfig;
+import com.example.content.Controller.AppController;
 import com.example.content.Model.SubCategoryItem;
+import com.example.content.Model.SubCategoryModel;
 import com.example.content.R;
+import com.example.content.Util.ConnUtil;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -29,70 +59,221 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * Created by M. Asrof Bayhaqqi on 6/9/2016.
  */
 public class EntertaimentSport extends AppCompatActivity implements
-        AdapterView.OnItemClickListener {
+        AdapterView.OnItemClickListener, LocationListener {
 
+    // Log tag
+    private static final String TAG = EntertaimentSport.class.getSimpleName();
+
+    private List<SubCategoryModel> artList = new ArrayList<SubCategoryModel>();
+    private ListView listView;
+    private EntertaimentSportAdapter adapter;
+    private Toolbar bar;
+    private LinearLayout linearLayout;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     Spinner spinner_category, spinner_sort;
-    public static final String[] title = new String[]{
-            "Sport 1", "Sport 2", "Sport 3", "Sport 4", "Sport 5", "Sport 6", "Sport 7"};
 
-    public static final String[] location = new String[]{
-            "Location Sport 1",
-            "Location Sport 2",
-            "Location Sport 3",
-            "Location Sport 4",
-            "Location Sport 5",
-            "Location Sport 6",
-            "Location Sport 7"};
+    //Location
+    protected LocationManager locationManager;
+    private static double cur_latitude;
+    private static double cur_longitude;
 
-    public static final String[] distance = new String[]{
-            "1 KM",
-            "2 KM",
-            "3 KM",
-            "4 KM",
-            "5 KM",
-            "6 KM",
-            "7 KM",};
-
-    public static final Integer[] thumbnail = {
-            R.drawable.profile_pc,
-            R.drawable.profile_pc,
-            R.drawable.profile_pc,
-            R.drawable.profile_pc,
-            R.drawable.profile_pc,
-            R.drawable.profile_pc,
-            R.drawable.profile_pc};
-
-    ListView listView;
-    List<SubCategoryItem> SubCategoryItem;
-
-    /**
-     * Called when the activity is first cr eated.
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sub_category);
+        setContentView(R.layout.sub_category_new);
 
-        Toolbar bar = (Toolbar) findViewById(R.id.toolbar);
+        bar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(bar);
 
         getSupportActionBar().setTitle("Sport");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        SubCategoryItem = new ArrayList<SubCategoryItem>();
-        for (int i = 0; i < title.length; i++) {
-            SubCategoryItem item = new SubCategoryItem(thumbnail[i], title[i], location[i], distance[i]);
-            SubCategoryItem.add(item);
-        }
+        initLocation();
+        initView();
+        initSwipeRefresh();
+        initListView();
+        initSpinner();
+        downData();
+    }
 
+    // Initialization location
+    private void initLocation() {
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        /*locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);*/
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if(location != null) {
+            cur_latitude = location.getLatitude();
+            cur_longitude = location.getLongitude();
+            String msg = "New Latitude: " + location.getLatitude() + "\n"
+                    + "New Longitude: " + location.getLongitude();
+
+            Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+            downData();
+        } else {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            downData();
+        }
+    }
+
+    private int calculateDistance(double latitude, double longitude){
+        Location locationA = new Location("point A");
+
+        locationA.setLatitude(cur_latitude);
+        locationA.setLongitude(cur_longitude);
+
+        Location locationB = new Location("point B");
+
+        locationB.setLatitude(latitude);
+        locationB.setLongitude(longitude);
+
+        float distanceInMeters = locationA.distanceTo(locationB)/1000;
+        Integer distanceInKM = Math.round(distanceInMeters);
+
+        return distanceInKM;
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        String msg = "New Latitude: " + location.getLatitude() + "\n"
+                + "New Longitude: " + location.getLongitude();
+
+        Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+
+        cur_latitude = location.getLatitude();
+        cur_longitude = location.getLongitude();
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Toast.makeText(getBaseContext(), R.string.gps_on,
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        startActivity(intent);
+        Toast.makeText(getBaseContext(), R.string.gps_off,
+                Toast.LENGTH_SHORT).show();
+    }
+
+    // Initialization view
+    private void initView() {
+        linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
+    }
+
+    // Initialization swiperefresh
+    private void initSwipeRefresh() {
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                downData();
+            }
+        });
+        mSwipeRefreshLayout.setRefreshing(true);
+    }
+
+    // Initialization listview
+    private void initListView() {
         listView = (ListView) findViewById(R.id.list_view);
-        EntertaimentSportAdapter adapter = new EntertaimentSportAdapter(this,
-                R.layout.sub_category_item, SubCategoryItem);
+        adapter = new EntertaimentSportAdapter(this, artList);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
+    }
 
-        initSpinner();
+    // Download data
+    private void downData() {
+        if (!ConnUtil.isNetConnected(this)) {
+            showErrorConnection();
+            return;
+        }
+        sendRequest();
+    }
+
+    // Seng Request GET
+    private void sendRequest() {
+
+        JsonArrayRequest stringRequest = new JsonArrayRequest(AppConfig.URL_TENANT+"14",
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, response.toString());
+
+                        // clear art in art array for update and add new art
+                        artList.clear();
+
+                        try {
+                            // Parsing json array response
+                            // loop through each json object
+                            for (int i = 0; i < response.length(); i++) {
+
+                                JSONObject obj = response.getJSONObject(i);
+                                SubCategoryModel art = new SubCategoryModel();
+                                art.setIdtenant(obj.getString("id_tenant"));
+                                art.setAvatar(obj.getString("avatar"));
+                                art.setName(obj.getString("name"));
+                                art.setAddress(obj.getString("address"));
+                                art.setLatitude(obj.getString("latitude"));
+                                art.setLongitude(obj.getString("longitude"));
+                                double longtitude = Double.parseDouble(obj.getString("longitude"));
+                                double latitude = Double.parseDouble(obj.getString("latitude"));
+                                int distance = calculateDistance(latitude,longtitude);
+                                art.setDistance(""+distance+" KM");
+                                art.setSubcategory(obj.getString("subcategory"));
+                                artList.add(art);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(),
+                                    "Error: " + e.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                        // notifying list adapter about data changes
+                        // so that it renders the list view with updated data
+                        adapter.notifyDataSetChanged();
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_SHORT).show();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String credentials = "admin:1234";
+                String auth = "Basic " + Base64.encodeToString(credentials.getBytes(),    Base64.NO_WRAP);
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", auth);
+                return headers;
+            }
+        };
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(stringRequest);
     }
 
     // Initialization spinner
@@ -145,53 +326,25 @@ public class EntertaimentSport extends AppCompatActivity implements
         });
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position,
-                            long id) {
-        /*Toast toast = Toast.makeText(getApplicationContext(),
-                "Item " + (position + 1) + ": " + SubCategoryItem.get(position),
-                Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-        toast.show();*/
+    // Show snackbar error
+    private void showErrorConnection() {
+        Snackbar snackbar = Snackbar
+                .make(linearLayout, R.string.no_connection, Snackbar.LENGTH_LONG)
+                .setAction(R.string.retry, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        downData();
+                    }
+                });
 
-        switch (position) {
-            case 0:
-               /* Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                Intent intent_sport0 = new Intent(getApplicationContext(), EntertaimentSportDetail.class);
-                startActivity(intent_sport0);
-                break;
-            case 1:
-                /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                Intent intent_sport1 = new Intent(getApplicationContext(), EntertaimentSportDetail.class);
-                startActivity(intent_sport1);
-                break;
-            case 2:
-               /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                Intent intent_sport2 = new Intent(getApplicationContext(), EntertaimentSportDetail.class);
-                startActivity(intent_sport2);
-                break;
-            case 3:
-               /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                Intent intent_sport3 = new Intent(getApplicationContext(), EntertaimentSportDetail.class);
-                startActivity(intent_sport3);
-                break;
-            case 4:
-               /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                Intent intent_sport4 = new Intent(getApplicationContext(), EntertaimentSportDetail.class);
-                startActivity(intent_sport4);
-                break;
-            case 5:
-               /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                Intent intent_sport5 = new Intent(getApplicationContext(), EntertaimentSportDetail.class);
-                startActivity(intent_sport5);
-                break;
-            case 6:
-               /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                Intent intent_sport6 = new Intent(getApplicationContext(), EntertaimentSportDetail.class);
-                startActivity(intent_sport6);
-                break;
-        }
+        // Changing message text color
+        snackbar.setActionTextColor(Color.RED);
 
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.YELLOW);
+        snackbar.show();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -206,6 +359,19 @@ public class EntertaimentSport extends AppCompatActivity implements
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
         return true;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String idtenant = artList.get(position).getIdtenant();
+        String name = artList.get(position).getName();
+        /*Snackbar.make(listView, "ID Tenant : " + id_tenant, Snackbar.LENGTH_LONG).show();*/
+        Intent intent = new Intent(EntertaimentSport.this, EntertaimentSportDetail.class);
+        Bundle extras = new Bundle();
+        extras.putString("id_tenant", idtenant);
+        extras.putString("name", name);
+        intent.putExtras(extras);
+        startActivity(intent);
     }
 
     @Override
