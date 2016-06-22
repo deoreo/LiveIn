@@ -34,6 +34,7 @@ import com.example.content.Controller.AppController;
 import com.example.content.Controller.AppData;
 import com.example.content.Model.RecommendedModel;
 import com.example.content.R;
+import com.example.content.Util.CalendarUtil;
 import com.example.content.Util.ConnUtil;
 
 import org.json.JSONArray;
@@ -100,6 +101,20 @@ public class EntertaimentRecommended extends AppCompatActivity {
         Integer distanceInKM = Math.round(distanceInMeters);
 
         return distanceInKM;
+    }
+
+    private String calculateOperational(String day, String open, String close){
+        String info= null;
+        if(day == CalendarUtil.getDay()){
+            if(open >= CalendarUtil.getTime() && close <= CalendarUtil.getTime()){
+                info = "Open";
+            } else {
+                info = "Close";
+            }
+        } else {
+            info = "Close";
+        }
+        return info;
     }
 
     // Initialization view
@@ -169,7 +184,12 @@ public class EntertaimentRecommended extends AppCompatActivity {
                                 recommendedItem.setRating(obj.getString("rating"));
                                 recommendedItem.setLatitude(obj.getString("latitude"));
                                 recommendedItem.setLongitude(obj.getString("longitude"));
-                                double longtitude = Double.parseDouble(obj.getString("longitude"));
+                                String day = String.valueOf(obj.getString("day"));
+                                String open = String.valueOf(obj.getString("open"));
+                                String close = String.valueOf(obj.getString("close"));
+                                String info = calculateOperational(day,open,close);
+                                recommendedItem.setInfo(info);
+                                double longtitude = Double.parseDouble(obj.getString("close"));
                                 double latitude = Double.parseDouble(obj.getString("latitude"));
                                 int distance = calculateDistance(latitude,longtitude);
                                 recommendedItem.setDistance(""+distance+" KM");
