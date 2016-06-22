@@ -6,12 +6,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -24,6 +28,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
@@ -33,12 +40,12 @@ public class DiningRecommendedDetail extends AppCompatActivity {
 
     Toolbar bar;
     Button btn_map, btn_bookmark, btn_photo;
-    TextView txt_name,txt_address,txt_open,txt_close,txt_menu,txt_harga;
+    TextView txt_name,txt_address,txt_open,txt_close,txt_phone,txt_menu,txt_harga;
     ProgressDialog pDialog;
-    LinearLayout linear;
-
     String latitude,longitude;
 
+    public static String[] menu;
+    public static String[] harga;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +62,11 @@ public class DiningRecommendedDetail extends AppCompatActivity {
         initView();
         initPDialog();
         sendRequest();
+
         btn_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DiningRecommendedDetail.this, AccomodationHotelDetail.class);
-                Bundle extras = new Bundle();
-                extras.putString("latitude", latitude);
-                extras.putString("longitude", longitude);
-                intent.putExtras(extras);
+                Intent intent = new Intent(DiningRecommendedDetail.this, MapDetail.class);
                 startActivity(intent);
             }
         });
@@ -77,39 +81,54 @@ public class DiningRecommendedDetail extends AppCompatActivity {
 
                 try {
 
-                    JSONArray jArray = new JSONArray(response);
+                    JSONObject detail = new JSONObject(response);
 
-                    for (int i = 0; i < jArray.length(); i++) {
-
-                        JSONObject object = jArray.getJSONObject(i);
+                    JSONArray jArray = detail.getJSONArray("detail");
+                    for (int i=0; i<detail.length();i++) {
+                        JSONObject object = detail.getJSONObject("detail");
                         txt_name.setText(object.getString("name"));
                         txt_address.setText(object.getString("address"));
                         txt_open.setText(object.getString("open"));
                         txt_close.setText(object.getString("close"));
+                        txt_phone.setText(object.getString("phone"));
+
+                    JSONArray jArray2 = detail.getJSONArray("menu");
+                    Log.d("JSONArray", jArray2.toString());
+
+
+                    for (int j = 0; j < jArray2.length(); j++) {
+
+                        JSONObject obj = jArray2.getJSONObject(j);
                         txt_menu.setText(object.getString("menu"));
                         txt_harga.setText(object.getString("harga"));
+                    }}
+//                        latitude=object.getString("latitude");
+//                        longitude=object.getString("longitude");
 
-                        latitude=object.getString("latitude");
-                        longitude=object.getString("longitude");
 
-                    }
                     hidepDialog();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
-
-
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
             }
-        });
+        })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String credentials = "admin:1234";
+                String auth = "Basic " + Base64.encodeToString(credentials.getBytes(),    Base64.NO_WRAP);
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", auth);
+                return headers;
+            }};
         hidepDialog();
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
-
     }
     private void initPDialog() {
         pDialog = new ProgressDialog(this);
@@ -128,8 +147,10 @@ public class DiningRecommendedDetail extends AppCompatActivity {
         txt_address = (TextView) findViewById(R.id.address);
         txt_open = (TextView) findViewById(R.id.open);
         txt_close = (TextView) findViewById(R.id.close);
+        txt_phone = (TextView) findViewById(R.id.phone);
         txt_menu = (TextView) findViewById(R.id.menu);
         txt_harga = (TextView) findViewById(R.id.harga);
+
     }
 
     @Override
@@ -150,7 +171,6 @@ public class DiningRecommendedDetail extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-
     private void showpDialog() {
         if (!pDialog.isShowing())
             pDialog.show();

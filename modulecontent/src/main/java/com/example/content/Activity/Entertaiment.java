@@ -149,7 +149,7 @@ public class Entertaiment extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Profile", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.map) {
-            Toast.makeText(getApplicationContext(), "Map", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "MapDetail", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.download) {
             Toast.makeText(getApplicationContext(), "Download", Toast.LENGTH_SHORT).show();
