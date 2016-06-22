@@ -31,7 +31,7 @@ import java.util.ArrayList;
  */
 public class PhotoGallery extends AppCompatActivity {
 
-    private String TAG = PhotoGallery.class.getSimpleName();
+    private String TAG = AppController.class.getSimpleName();
     private static final String endpoint = "http://api.androidhive.info/json/glide.json";
     private ArrayList<Image> images;
     private ProgressDialog pDialog;
@@ -122,7 +122,6 @@ public class PhotoGallery extends AppCompatActivity {
         });
 
         // Adding request to request queue
-        AppController appController = new AppController(PhotoGallery.this);
-        appController.addToRequestQueue(req);
+        AppController.getInstance().addToRequestQueue(req);
     }
 }

@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.content.Adapter.DiningRecommendedAdapter;
 import com.example.content.Adapter.EntertaimentRecommendedAdapter;
 import com.example.content.R;
 
@@ -47,7 +48,7 @@ public class DiningRecommended extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new EntertaimentRecommendedAdapter();
+        mAdapter = new DiningRecommendedAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
         initSpinner();
@@ -103,7 +104,7 @@ public class DiningRecommended extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Profile", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.map) {
-            Toast.makeText(getApplicationContext(), "Map", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "MapDetail", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.download){
             Toast.makeText(getApplicationContext(), "Download", Toast.LENGTH_SHORT).show();

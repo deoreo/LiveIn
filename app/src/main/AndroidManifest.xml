@@ -21,7 +21,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyAv5Kd-SKHBMLW6z6DziHW2kxaUUi3GKuE" />
         <activity
             android:name="id.co.visionet.smartcity.screen.Activity.WelcomeActivity"
             android:screenOrientation="portrait"
@@ -202,6 +202,8 @@
         <!-- Transportation -->
         <activity android:name="com.example.content.Activity.Transportation" />
         <activity android:name="com.example.content.Activity.TransportationPublic" />
+
+        <activity android:name="com.example.content.Activity.MapDetail"/>
 
     </application>
 

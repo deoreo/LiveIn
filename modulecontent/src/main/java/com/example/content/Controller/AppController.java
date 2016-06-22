@@ -19,16 +19,11 @@ public class AppController extends Application {
     private ImageLoader mImageLoader;
 
     private static AppController mInstance;
-    private Activity mActivity;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-    }
-
-    public AppController(Activity activity){
-        this.mActivity = activity;
     }
 
     public static synchronized AppController getInstance() {
@@ -37,7 +32,7 @@ public class AppController extends Application {
 
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(mActivity);
+            mRequestQueue = Volley.newRequestQueue(getApplicationContext());
         }
 
         return mRequestQueue;
