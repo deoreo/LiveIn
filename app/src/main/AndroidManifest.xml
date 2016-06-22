@@ -203,6 +203,9 @@
         <activity android:name="com.example.content.Activity.Transportation" />
         <activity android:name="com.example.content.Activity.TransportationPublic" />
 
+        <!-- MAP Detail-->
+        <activity android:name="com.example.content.Activity.MapDetail" />
+
     </application>
 
 </manifest>
