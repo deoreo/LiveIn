@@ -42,7 +42,7 @@ public class EntertaimentRecommendedDetail extends AppCompatActivity {
 
     Toolbar bar;
     Button btn_map, btn_bookmark, btn_photo;
-    TextView txt_name, txt_address, txt_open, txt_close, txt_menu, txt_harga, txt_special;
+    TextView txt_name, txt_address, txt_open, txt_close, txt_menu, txt_harga, txt_special,txt_title_menu;
     ProgressDialog pDialog;
     LinearLayout linear;
     NetworkImageView imageView;
@@ -168,6 +168,8 @@ public class EntertaimentRecommendedDetail extends AppCompatActivity {
         txt_special = (TextView) findViewById(R.id.special_offer);
         txt_menu = (TextView) findViewById(R.id.menu);
         txt_harga = (TextView) findViewById(R.id.harga);
+        txt_title_menu=(TextView)findViewById(R.id.title_menu);
+        txt_title_menu.setVisibility(View.INVISIBLE);
         imageView = (NetworkImageView) findViewById(R.id.backdrop);
         linear = (LinearLayout) findViewById(R.id.linear);
         linear.setVisibility(View.INVISIBLE);

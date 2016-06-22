@@ -23,7 +23,7 @@
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <ImageView
+            <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/backdrop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -277,12 +277,14 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="16dp"
                     android:text="Menu"
+                    android:id="@+id/title_menu"
                     android:textColor="@android:color/white"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:id="@+id/linear">
 
                     <TextView
                         android:id="@+id/menu"
@@ -319,6 +321,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                 <TextView
+                    android:id="@+id/special_offer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="32dp"

@@ -37,7 +37,7 @@ public class EntertaimentArtDetail extends AppCompatActivity {
 
     Toolbar bar;
     Button btn_map, btn_bookmark, btn_photo;
-    TextView txt_name,txt_address,txt_open,txt_close,txt_menu,txt_harga,txt_special;
+    TextView txt_name,txt_address,txt_open,txt_close,txt_menu,txt_harga,txt_special,txt_title_menu;
     ProgressDialog pDialog;
     String latitude,longitude;
 
@@ -151,6 +151,8 @@ public class EntertaimentArtDetail extends AppCompatActivity {
         txt_open = (TextView) findViewById(R.id.open);
         txt_close = (TextView) findViewById(R.id.close);
         txt_menu = (TextView) findViewById(R.id.menu);
+        txt_title_menu=(TextView)findViewById(R.id.title_menu);
+        txt_title_menu.setVisibility(View.INVISIBLE);
         txt_harga = (TextView) findViewById(R.id.harga);
         txt_special=(TextView)findViewById(R.id.special_offer);
 
