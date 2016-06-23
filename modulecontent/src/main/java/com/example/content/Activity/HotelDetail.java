@@ -4,48 +4,40 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.content.Adapter.GettingToKnowAdapter;
 import com.example.content.R;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
- * Created by M. Asrof Bayhaqqi on 6/8/2016.
+ * Created by M. Asrof Bayhaqqi on 6/15/2016.
  */
-public class GettingToKnow extends AppCompatActivity {
+public class HotelDetail extends AppCompatActivity {
 
     Toolbar bar;
-    RecyclerView mRecyclerView;
-    RecyclerView.LayoutManager mLayoutManager;
-    RecyclerView.Adapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.news);
+        setContentView(R.layout.sub_category_detail);
+
+        // Get data intent
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        int get_idtenant = extras.getInt("idtenant");
+        String get_name = extras.getString("name");
 
         bar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(bar);
 
-        getSupportActionBar().setTitle("Getting To Know");
+        getSupportActionBar().setTitle(get_name);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_news);
-        mRecyclerView.setHasFixedSize(true);
-
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mAdapter = new GettingToKnowAdapter();
-        mRecyclerView.setAdapter(mAdapter);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -75,19 +67,9 @@ public class GettingToKnow extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Download", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == android.R.id.home){
-            Intent intent_gettingtoknow = new Intent(GettingToKnow.this, Home.class);
-            startActivity(intent_gettingtoknow);
-            GettingToKnow.this.finish();
+            this.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent_gettingtoknow = new Intent(GettingToKnow.this, Home.class);
-        startActivity(intent_gettingtoknow);
-        GettingToKnow.this.finish();
     }
 
     @Override
