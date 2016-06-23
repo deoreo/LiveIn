@@ -4,12 +4,13 @@ package com.example.content.Model;
  * Created by M. Asrof Bayhaqqi on 6/8/2016.
  */
 public class RecommendedModel {
-    private String avatar, latitude, longitude, name, address, distance, subcategory, rating, info, day, open, close;
+    private String id_tenant, avatar, latitude, longitude, name, address, distance, subcategory, rating, info, day, open, close;
 
     public RecommendedModel() {
     }
 
-    public RecommendedModel(String avatar, String latitude, String longitude, String name, String address, String distance, String subcategory, String rating, String day, String open, String close) {
+    public RecommendedModel(String id_tenant, String avatar, String latitude, String longitude, String name, String address, String distance, String subcategory, String rating, String day, String open, String close) {
+        this.id_tenant = id_tenant;
         this.avatar = avatar;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -22,6 +23,14 @@ public class RecommendedModel {
         this.day = day;
         this.open = open;
         this.close = close;
+    }
+
+    public String getIdtenant() {
+        return id_tenant;
+    }
+
+    public void setIdtenant(String id_tenant) {
+        this.id_tenant = id_tenant;
     }
 
     public String getAvatar() {

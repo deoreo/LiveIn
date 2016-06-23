@@ -31,21 +31,17 @@ public class EntertaimentArtDetail extends AppCompatActivity {
         String get_idtenant = extras.getString("id_tenant");
         String get_name = extras.getString("name");
         String get_distance = extras.getString("distance");
-        String get_latitude = extras.getString("latitude");
-        String get_longitude = extras.getString("longitude");
 
         String msg = "id_tenant: " + get_idtenant + "\n"
-                + "distance: " + get_name  + "\n"
-                + "name: " + get_distance  + "\n"
-                + "latitude: " + get_latitude  + "\n"
-                + "longitude: " + get_longitude  + "\n";
+                + "distance: " + get_distance  + "\n"
+                + "name: " + get_name  + "\n";
 
         Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
 
         bar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(bar);
 
-        getSupportActionBar().setTitle("Art & Culture Detail");
+        getSupportActionBar().setTitle(get_name);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 

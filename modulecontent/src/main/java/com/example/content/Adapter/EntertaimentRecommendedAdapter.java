@@ -96,14 +96,19 @@ public class EntertaimentRecommendedAdapter extends RecyclerView.Adapter<Enterta
 
         @Override
         public void onClick(View v) {
-            int i = (int) v.getTag();
+            int i = getAdapterPosition();
             RecommendedModel recommendedItem = recommendedItems.get(i);
 
+            String idtenant = recommendedItem.getIdtenant();
             String name = recommendedItem.getName();
+            String distance = recommendedItem.getDistance();
 
             Intent intent = new Intent(v.getContext(), EntertaimentRecommendedDetail.class);
             Bundle extras = new Bundle();
+            extras.putString("id_tenant", idtenant);
             extras.putString("name", name);
+            extras.putString("distance", distance);
+            intent.putExtras(extras);
             intent.putExtras(extras);
             v.getContext().startActivity(intent);
         }

@@ -297,11 +297,13 @@ public class EntertaimentLeisure extends AppCompatActivity implements
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String idtenant = artList.get(position).getIdtenant();
         String name = artList.get(position).getName();
+        String distance = artList.get(position).getDistance();
         /*Snackbar.make(listView, "ID Tenant : " + id_tenant, Snackbar.LENGTH_LONG).show();*/
         Intent intent = new Intent(EntertaimentLeisure.this, EntertaimentLeisureDetail.class);
         Bundle extras = new Bundle();
         extras.putString("id_tenant", idtenant);
         extras.putString("name", name);
+        extras.putString("distance", distance);
         intent.putExtras(extras);
         startActivity(intent);
     }

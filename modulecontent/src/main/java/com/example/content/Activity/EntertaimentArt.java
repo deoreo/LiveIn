@@ -301,16 +301,12 @@ public class EntertaimentArt extends AppCompatActivity implements
         String idtenant = artList.get(position).getIdtenant();
         String name = artList.get(position).getName();
         String distance = artList.get(position).getDistance();
-        String latitude = artList.get(position).getLatitude();
-        String longitude = artList.get(position).getLongitude();
         /*Snackbar.make(listView, "ID Tenant : " + id_tenant, Snackbar.LENGTH_LONG).show();*/
         Intent intent = new Intent(EntertaimentArt.this, EntertaimentArtDetail.class);
         Bundle extras = new Bundle();
         extras.putString("id_tenant", idtenant);
         extras.putString("name", name);
         extras.putString("distance", distance);
-        extras.putString("latitude", latitude);
-        extras.putString("longitude", longitude);
         intent.putExtras(extras);
         startActivity(intent);
     }

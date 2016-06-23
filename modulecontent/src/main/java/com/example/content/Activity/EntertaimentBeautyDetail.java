@@ -1,6 +1,7 @@
 package com.example.content.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -24,10 +25,23 @@ public class EntertaimentBeautyDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sub_category_detail);
 
+        // Get data intent
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        String get_idtenant = extras.getString("id_tenant");
+        String get_name = extras.getString("name");
+        String get_distance = extras.getString("distance");
+
+        String msg = "id_tenant: " + get_idtenant + "\n"
+                + "distance: " + get_distance  + "\n"
+                + "name: " + get_name  + "\n";
+
+        Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+
         bar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(bar);
 
-        getSupportActionBar().setTitle("Beauty Detail");
+        getSupportActionBar().setTitle(get_name);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 

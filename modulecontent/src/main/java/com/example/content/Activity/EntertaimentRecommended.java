@@ -103,20 +103,6 @@ public class EntertaimentRecommended extends AppCompatActivity {
         return distanceInKM;
     }
 
-    private String calculateOperational(String day, String open, String close){
-        String info= null;
-        if(day == CalendarUtil.getDay()){
-            if(open >= CalendarUtil.getTime() && close <= CalendarUtil.getTime()){
-                info = "Open";
-            } else {
-                info = "Close";
-            }
-        } else {
-            info = "Close";
-        }
-        return info;
-    }
-
     // Initialization view
     private void initView() {
         linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
@@ -177,6 +163,7 @@ public class EntertaimentRecommended extends AppCompatActivity {
 
                                 JSONObject obj = jArray.getJSONObject(i);
                                 RecommendedModel recommendedItem = new RecommendedModel();
+                                recommendedItem.setIdtenant(obj.getString("id_tenant"));
                                 recommendedItem.setAvatar(obj.getString("avatar"));
                                 recommendedItem.setName(obj.getString("nama_tenant"));
                                 recommendedItem.setAddress(obj.getString("address"));
@@ -184,12 +171,15 @@ public class EntertaimentRecommended extends AppCompatActivity {
                                 recommendedItem.setRating(obj.getString("rating"));
                                 recommendedItem.setLatitude(obj.getString("latitude"));
                                 recommendedItem.setLongitude(obj.getString("longitude"));
-                                String day = String.valueOf(obj.getString("day"));
                                 String open = String.valueOf(obj.getString("open"));
-                                String close = String.valueOf(obj.getString("close"));
-                                String info = calculateOperational(day,open,close);
+                                String info;
+                                if(open.equals("1")){
+                                    info = "Open";
+                                } else {
+                                    info = "Close";
+                                }
                                 recommendedItem.setInfo(info);
-                                double longtitude = Double.parseDouble(obj.getString("close"));
+                                double longtitude = Double.parseDouble(obj.getString("longitude"));
                                 double latitude = Double.parseDouble(obj.getString("latitude"));
                                 int distance = calculateDistance(latitude,longtitude);
                                 recommendedItem.setDistance(""+distance+" KM");

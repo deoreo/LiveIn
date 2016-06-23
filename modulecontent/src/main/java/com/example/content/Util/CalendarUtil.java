@@ -9,6 +9,8 @@ import java.util.Calendar;
 public class CalendarUtil {
     public static Calendar calendar = Calendar.getInstance();
 
+
+
     public static String getTime() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
         String time = simpleDateFormat.format(calendar.getTime());
@@ -21,19 +23,26 @@ public class CalendarUtil {
 
         switch (day) {
             case Calendar.SUNDAY:
-                nameDay = "Sunday";
+                nameDay = "sunday";
+                break;
             case Calendar.MONDAY:
-                nameDay = "Monday";
+                nameDay = "monday";
+                break;
             case Calendar.TUESDAY:
-                nameDay = "Tuesday";
+                nameDay = "tuesday";
+                break;
             case Calendar.WEDNESDAY:
-                nameDay = "Wednesday";
+                nameDay = "wednesday";
+                break;
             case Calendar.THURSDAY:
-                nameDay = "Thursday";
+                nameDay = "thursday";
+                break;
             case Calendar.FRIDAY:
-                nameDay = "Friday";
+                nameDay = "friday";
+                break;
             case Calendar.SATURDAY:
-                nameDay = "Saturday";
+                nameDay = "saturday";
+                break;
         }
         return nameDay;
     }
