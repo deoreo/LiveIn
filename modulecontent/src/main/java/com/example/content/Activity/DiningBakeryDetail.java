@@ -3,14 +3,18 @@ package com.example.content.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +22,8 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.example.content.Controller.AppConfig;
 import com.example.content.Controller.AppController;
@@ -39,14 +45,27 @@ public class DiningBakeryDetail extends AppCompatActivity {
 
     Toolbar bar;
     Button btn_map, btn_bookmark, btn_photo;
-    TextView txt_name,txt_address,txt_open,txt_close,txt_phone;
+    TextView txt_name,txt_address,txt_open,txt_close,txt_phone,txt_specialOffer, txt_info;
     ProgressDialog pDialog;
-    String latitude,longitude;
+    Double latitude,longitude;
+    NetworkImageView imageView;
+    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+    String get_idTenant, get_name, get_distance;
+
+    public static String[] menu;
+    public static String[] harga;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sub_category_detail);
+
+//        Intent intent = getIntent();
+//        Bundle extras = intent.getExtras();
+//        get_idTenant = extras.getString("id_tenant");
+//        get_name = extras.getString("name");
+//        get_distance = extras.getString("distance");
 
         bar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(bar);
@@ -62,11 +81,11 @@ public class DiningBakeryDetail extends AppCompatActivity {
         btn_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DiningBakeryDetail.this, AccomodationHotelDetail.class);
-                Bundle extras = new Bundle();
-                extras.putString("latitude", latitude);
-                extras.putString("longitude", longitude);
-                intent.putExtras(extras);
+                Intent intent = new Intent(DiningBakeryDetail.this, MapDetail.class);
+//                Bundle extras = new Bundle();
+//                extras.putDouble("latitude", latitude);
+//                extras.putDouble("longitude", longitude);
+//                intent.putExtras(extras);
                 startActivity(intent);
             }
         });
@@ -81,26 +100,109 @@ public class DiningBakeryDetail extends AppCompatActivity {
 
                 try {
 
-                    JSONArray jArray = new JSONArray(response);
+                    JSONObject detail = new JSONObject(response);
 
-                    for (int i = 0; i < jArray.length(); i++) {
+//                    JSONArray jArray = detail.getJSONArray("detail");
+//
+//                    for (int i=0; i<jArray.length();i++) {
 
-                        JSONObject object = jArray.getJSONObject(i);
-                        txt_name.setText(object.getString("name"));
-                        txt_address.setText(object.getString("address"));
-                        txt_open.setText(object.getString("open"));
-                        txt_close.setText(object.getString("close"));
-                        txt_phone.setText(object.getString("phone"));
+                    JSONObject object = detail.getJSONObject("detail");
 
-                        latitude=object.getString("latitude");
-                        longitude=object.getString("longitude");
+                    String avatar = object.getString("avatar");
+                    imageView.setImageUrl(avatar, imageLoader);
 
-                    }
+                    txt_name.setText(object.getString("name"));
+                    txt_address.setText(object.getString("address"));
+                    txt_open.setText(object.getString("open"));
+                    txt_close.setText(object.getString("close"));
+                    txt_phone.setText(object.getString("phone"));
+                    txt_specialOffer.setText(object.getString("specialoffer"));
+
+                    JSONArray jArray2 = detail.getJSONArray("menu");
+                    Log.d("JSONArray", jArray2.toString());
+
+
+                    menu = new String[jArray2.length()];
+                    harga = new String[jArray2.length()];
+
+                    for (int j = 0; j < jArray2.length(); j++) {
+
+                        JSONObject obj = jArray2.getJSONObject(j);
+
+                        menu[j] = obj.getString("menu");
+                        harga[j] = obj.getString("harga");
+//                        if(object.getString("info").equals("1")){
+//                            txt_info.setText("OPEN");
+//                        }else{
+//                            txt_info.setText("CLOSE");
+//                        }
+                    }//}
+//                        latitude=object.getString("latitude");
+//                        longitude=object.getString("longitude");
 
                     hidepDialog();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }
+                TableLayout tableLayout=(TableLayout)findViewById(R.id.tablelayout);
+                tableLayout.removeAllViews();
+
+                // Add header row
+                TableRow rowHeader = new TableRow(DiningBakeryDetail.this);
+
+                String[] headerText={"MENU","HARGA"};
+                for(String c:headerText) {
+                    TextView tv = new TextView(DiningBakeryDetail.this);
+                    tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                            TableRow.LayoutParams.WRAP_CONTENT));
+                    tv.setTextColor(Color.WHITE);
+                    tv.setTextSize(14);
+
+                    tv.setPadding(5, 5, 5, 5);
+                    tv.setText(c);
+                    rowHeader.addView(tv);
+                }
+                tableLayout.addView(rowHeader);
+
+                String[][] local_admin = new String[menu.length][];
+                for(int i=0;i<menu.length;i++){
+                    local_admin[i] = new String[]{menu[i],harga[i]};
+                }
+
+                for(int i=0;i<menu.length;i++){
+                    TableRow row = new TableRow(DiningBakeryDetail.this);
+                    row.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
+                            TableLayout.LayoutParams.WRAP_CONTENT));
+
+                    for(String text:local_admin[i]) {
+                        final TextView tv = new TextView(DiningBakeryDetail.this);
+                        tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                                TableRow.LayoutParams.WRAP_CONTENT));
+                        tv.setTextColor(Color.WHITE);
+                        tv.setTextSize(16);
+                        tv.setPadding(10, 10, 10, 10);
+                        if(text.equalsIgnoreCase("Pending")){
+                            tv.setText(text);
+                            tv.setId(Integer.parseInt(local_admin[i][0]));
+                            tv.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //Toast.makeText(MainActivity.this,"ID : "+tv.getId(),Toast.LENGTH_LONG).show();
+                                    //updateStatus(tv.getId());
+                                }
+                            });
+                        }
+                        else if(text.equalsIgnoreCase("Active")){
+                            tv.setText(text);
+
+                        }
+                        else{
+                            tv.setText(text);
+                        }
+                        row.addView(tv);
+                    }
+                    tableLayout.addView(row);
                 }
             }
         }, new Response.ErrorListener() {
@@ -108,6 +210,7 @@ public class DiningBakeryDetail extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
             }
         })
+
         {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -139,6 +242,9 @@ public class DiningBakeryDetail extends AppCompatActivity {
         txt_open = (TextView) findViewById(R.id.open);
         txt_close = (TextView) findViewById(R.id.close);
         txt_phone = (TextView) findViewById(R.id.phone);
+        txt_specialOffer = (TextView) findViewById(R.id.specialOffer);
+        imageView = (NetworkImageView) findViewById(R.id.backdrop);
+        txt_info = (TextView) findViewById(R.id.info);
     }
 
     @Override

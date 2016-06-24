@@ -152,32 +152,32 @@ public class DiningFast extends AppCompatActivity implements
         switch (position) {
             case 0:
                 /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                Intent intent_fast0 = new Intent(getApplicationContext(), DiningJapaneseDetail.class);
+                Intent intent_fast0 = new Intent(getApplicationContext(), DiningFastDetail.class);
                 startActivity(intent_fast0);
                 break;
             case 1:
                 /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                Intent intent_fast1 = new Intent(getApplicationContext(), DiningJapaneseDetail.class);
+                Intent intent_fast1 = new Intent(getApplicationContext(), DiningFastDetail.class);
                 startActivity(intent_fast1);
                 break;
             case 2:
                /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                Intent intent_fast2 = new Intent(getApplicationContext(), DiningJapaneseDetail.class);
+                Intent intent_fast2 = new Intent(getApplicationContext(), DiningFastDetail.class);
                 startActivity(intent_fast2);
                 break;
             case 3:
                /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                Intent intent_fast3 = new Intent(getApplicationContext(), DiningJapaneseDetail.class);
+                Intent intent_fast3 = new Intent(getApplicationContext(), DiningFastDetail.class);
                 startActivity(intent_fast3);
                 break;
             case 4:
                /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                Intent intent_fast4 = new Intent(getApplicationContext(), DiningJapaneseDetail.class);
+                Intent intent_fast4 = new Intent(getApplicationContext(), DiningFastDetail.class);
                 startActivity(intent_fast4);
                 break;
             case 5:
                /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                Intent intent_fast5 = new Intent(getApplicationContext(), DiningJapaneseDetail.class);
+                Intent intent_fast5 = new Intent(getApplicationContext(), DiningFastDetail.class);
                 startActivity(intent_fast5);
                 break;
             case 6:

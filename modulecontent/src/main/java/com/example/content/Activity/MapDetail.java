@@ -2,10 +2,12 @@ package com.example.content.Activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.content.Controller.AppController;
@@ -28,15 +30,22 @@ public class MapDetail extends AppCompatActivity implements OnMapReadyCallback {
 
     // Google MapDetail
     private GoogleMap googleMap;
+    //Double get_longitude, get_latitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map);
 
+//        Intent intent = getIntent();
+//        Bundle extras = intent.getExtras();
+//        get_latitude = extras.getDouble("latitude");
+//        get_longitude = extras.getDouble("longitude");
+
         SupportMapFragment fragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         fragment.getMapAsync(this);
+
     }
 
     @Override
@@ -52,7 +61,7 @@ public class MapDetail extends AppCompatActivity implements OnMapReadyCallback {
             return;
         }
         googleMap.setMyLocationEnabled(true);
-        LatLng myCoordinates = new LatLng(-7.9337192, 112.6518156);
+        LatLng myCoordinates = new LatLng(-7.97898, 112.562);
         CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(myCoordinates, 12);
         Marker marker = googleMap.addMarker(new MarkerOptions().position(myCoordinates).title("Innovation Center").snippet("Jalan Raya Blimbing Indah Blok A5 No.16, Malang")
         );
