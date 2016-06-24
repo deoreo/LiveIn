@@ -44,6 +44,5 @@
 
     <style name="spinner_style" >
         <item name="android:background">@drawable/rounded_spinner</item>
-
     </style>
 </resources>

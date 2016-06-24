@@ -94,6 +94,7 @@ public class Entertaiment extends AppCompatActivity {
                 startActivity(intent_beauty);
             }
         });
+        btn_others.setVisibility(View.GONE);
         btn_others.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,26 +150,17 @@ public class Entertaiment extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Profile", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.map) {
-            Toast.makeText(getApplicationContext(), "Map", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "MapDetail", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.download) {
             Toast.makeText(getApplicationContext(), "Download", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == android.R.id.home) {
-            Intent intent_entertaiment = new Intent(Entertaiment.this, Home.class);
-            startActivity(intent_entertaiment);
-            Entertaiment.this.finish();
+            this.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent_entertaiment = new Intent(Entertaiment.this, Home.class);
-        startActivity(intent_entertaiment);
-        Entertaiment.this.finish();
-    }
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));

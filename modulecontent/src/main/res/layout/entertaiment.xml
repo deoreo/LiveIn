@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
+    android:orientation="vertical"
     tools:context="com.example.content.Activity.Entertaiment">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:gravity="center_horizontal"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <LinearLayout
@@ -31,38 +31,42 @@
                     android:id="@+id/bckgrndViewFlipper1"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent">
+
                     <ImageView
                         android:id="@+id/bckgrndImageView8"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:scaleType="centerCrop"
                         android:src="@drawable/about" />
+
                     <ImageView
                         android:id="@+id/bckgrndImageView7"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:scaleType="centerCrop"
                         android:src="@mipmap/ic_launcher" />
+
                     <ImageView
                         android:id="@+id/bckgrndImageView6"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:scaleType="centerCrop"
                         android:src="@drawable/about" />
+
                     <ImageView
                         android:id="@+id/bckgrndImageView5"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/ic_launcher"/>
+                        android:src="@mipmap/ic_launcher" />
                 </ViewFlipper>
             </LinearLayout>
 
             <TableLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="16dp"
-                android:gravity="center">
+                android:gravity="center"
+                android:paddingBottom="16dp">
 
                 <TableRow
                     android:id="@+id/tableRow1"
@@ -74,52 +78,49 @@
                         android:id="@+id/btn_recommended"
                         android:layout_width="107dp"
                         android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
                         android:background="@drawable/border_button"
                         android:drawablePadding="10dp"
                         android:drawableTop="@drawable/entertainment"
-                        android:paddingRight="5dp"
-                        android:paddingLeft="5dp"
-                        android:paddingTop="15dp"
                         android:paddingBottom="15dp"
-                        android:layout_margin="5dp"
-                        android:textSize="11sp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="15dp"
+                        android:text="RECOMMENDED"
                         android:textColor="@android:color/white"
-                        android:text="RECOMMENDED">
-                    </Button>
+                        android:textSize="11sp"></Button>
 
                     <Button
                         android:id="@+id/btn_events"
                         android:layout_width="107dp"
                         android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
                         android:background="@drawable/border_button"
                         android:drawablePadding="10dp"
                         android:drawableTop="@drawable/dining"
-                        android:paddingRight="5dp"
-                        android:paddingLeft="5dp"
-                        android:paddingTop="15dp"
                         android:paddingBottom="15dp"
-                        android:layout_margin="5dp"
-                        android:textSize="11sp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="15dp"
+                        android:text="EVENTS"
                         android:textColor="@android:color/white"
-                        android:text="EVENTS">
-                    </Button>
+                        android:textSize="11sp"></Button>
 
                     <Button
                         android:id="@+id/btn_sport"
                         android:layout_width="107dp"
                         android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
                         android:background="@drawable/border_button"
                         android:drawablePadding="10dp"
                         android:drawableTop="@drawable/accomodation"
-                        android:paddingRight="5dp"
-                        android:paddingLeft="5dp"
-                        android:paddingTop="15dp"
                         android:paddingBottom="15dp"
-                        android:layout_margin="5dp"
-                        android:textSize="11sp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="15dp"
+                        android:text="SPORT"
                         android:textColor="@android:color/white"
-                        android:text="SPORT">
-                    </Button>
+                        android:textSize="11sp"></Button>
                 </TableRow>
 
                 <TableRow
@@ -130,48 +131,45 @@
 
                     <Button
                         android:id="@+id/btn_leisure"
+                        android:layout_margin="5dp"
                         android:background="@drawable/border_button"
                         android:drawablePadding="10dp"
                         android:drawableTop="@drawable/shopping"
-                        android:paddingRight="5dp"
-                        android:paddingLeft="5dp"
-                        android:paddingTop="15dp"
                         android:paddingBottom="15dp"
-                        android:layout_margin="5dp"
-                        android:textSize="11sp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="15dp"
+                        android:text="Leisure"
                         android:textColor="@android:color/white"
-                        android:text="Leisure">
-                    </Button>
+                        android:textSize="11sp"></Button>
 
                     <Button
                         android:id="@+id/btn_art_and_culture"
+                        android:layout_margin="5dp"
                         android:background="@drawable/border_button"
                         android:drawablePadding="10dp"
                         android:drawableTop="@drawable/transportation"
-                        android:paddingRight="5dp"
-                        android:paddingLeft="5dp"
-                        android:paddingTop="15dp"
                         android:paddingBottom="15dp"
-                        android:layout_margin="5dp"
-                        android:textSize="11sp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="15dp"
+                        android:text="ART &amp; CULTURE"
                         android:textColor="@android:color/white"
-                        android:text="ART &amp; CULTURE">
-                    </Button>
+                        android:textSize="11sp"></Button>
 
                     <Button
                         android:id="@+id/btn_beauty"
+                        android:layout_margin="5dp"
                         android:background="@drawable/border_button"
                         android:drawablePadding="10dp"
                         android:drawableTop="@drawable/gallery"
-                        android:paddingRight="5dp"
-                        android:paddingLeft="5dp"
-                        android:paddingTop="15dp"
                         android:paddingBottom="15dp"
-                        android:layout_margin="5dp"
-                        android:textSize="11sp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="15dp"
+                        android:text="Beauty"
                         android:textColor="@android:color/white"
-                        android:text="Beauty">
-                    </Button>
+                        android:textSize="11sp"></Button>
                 </TableRow>
 
                 <TableRow
@@ -202,6 +200,7 @@
 
         </LinearLayout>
 
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+
+</LinearLayout>
 

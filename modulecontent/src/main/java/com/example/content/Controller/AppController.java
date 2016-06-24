@@ -7,9 +7,13 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
-import com.example.content.Activity.PhotoGallery;
+import com.example.content.R;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
+/**
+ * Created by M. Asrof Bayhaqqi on 6/13/2016.
+ */
 public class AppController extends Application {
     public static final String TAG = AppController.class.getSimpleName();
 
@@ -18,11 +22,15 @@ public class AppController extends Application {
 
     private static AppController mInstance;
 
-
     @Override
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/HelveticaNeue-Light.otf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
     }
 
     public static synchronized AppController getInstance() {

@@ -36,6 +36,4 @@ dependencies {
     compile project(':moduleprofile')
     compile 'com.android.support:support-annotations:23.4.0'
     compile 'com.android.support:multidex:1.0.0'
-    compile 'com.google.android.gms:play-services:9.0.0'
-
 }
