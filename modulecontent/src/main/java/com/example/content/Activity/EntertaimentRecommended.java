@@ -14,7 +14,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.content.Adapter.EntertaimentRecommendedAdapter;
+import com.example.content.Model.RecommendedModel;
 import com.example.content.R;
+
+import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -28,6 +31,7 @@ public class EntertaimentRecommended extends AppCompatActivity {
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
     Spinner spinner_category, spinner_sort;
+    private List<RecommendedModel> listRecomendedItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +51,8 @@ public class EntertaimentRecommended extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new EntertaimentRecommendedAdapter();
-        mRecyclerView.setAdapter(mAdapter);
+//        mAdapter = new EntertaimentRecommendedAdapter(listRecomendedItem, this);
+//        mRecyclerView.setAdapter(mAdapter);
 
         initSpinner();
     }

@@ -10,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.example.content.Activity.DiningRecommended;
 import com.example.content.Activity.GettingToKnowDetail;
 import com.example.content.Activity.EntertaimentRecommendedDetail;
 import com.example.content.Model.RecommendedItem;
+import com.example.content.Model.RecommendedModel;
 import com.example.content.R;
 
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public class EntertaimentRecommendedAdapter extends RecyclerView.Adapter<Enterta
 
     List<RecommendedItem> Items;
 
-    public EntertaimentRecommendedAdapter() {
+    public  EntertaimentRecommendedAdapter(List<RecommendedModel> listRecomendedItem, DiningRecommended diningRecommended) {
         super();
         Items = new ArrayList<RecommendedItem>();
         RecommendedItem category = new RecommendedItem();

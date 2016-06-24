@@ -122,7 +122,7 @@ public class PhotoGallery extends AppCompatActivity {
         });
 
         // Adding request to request queue
-        AppController appController = new AppController(PhotoGallery.this);
-        appController.addToRequestQueue(req);
+//        AppController appController = new AppController(PhotoGallery.this);
+//        appController.addToRequestQueue(req);
     }
 }

@@ -10,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.content.Activity.DiningJapanese;
 import com.example.content.Model.SubCategoryItem;
+import com.example.content.Model.SubCategoryModel;
 import com.example.content.R;
 
 import java.util.List;
@@ -27,6 +29,8 @@ public class EntertaimentArtAdapter extends ArrayAdapter<SubCategoryItem> {
         super(context, resourceId, items);
         this.context = context;
     }
+
+
 
     /*private view holder class*/
     private class ViewHolder {
