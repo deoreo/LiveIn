@@ -79,7 +79,7 @@ public class EntertaimentSportAdapter extends BaseAdapter {
         // address
         address.setText(entertaiment.getAddress());
 
-        distance.setText(entertaiment.getDistance());
+        distance.setText(entertaiment.getDistance()+" KM");
 
         return convertView;
     }

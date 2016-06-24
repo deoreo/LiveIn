@@ -50,6 +50,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +73,7 @@ public class EntertaimentSport extends AppCompatActivity implements
     private Toolbar bar;
     private LinearLayout linearLayout;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private String sortStatus = "Name";
     Spinner spinner_category, spinner_sort;
 
     @Override
@@ -130,14 +133,23 @@ public class EntertaimentSport extends AppCompatActivity implements
     private void initListView() {
         listView = (ListView) findViewById(R.id.list_view);
         adapter = new EntertaimentSportAdapter(this, artList);
+        /*Collections.sort(artList,new CustomComparator());*/
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
+    }
+
+    public class CustomComparator implements Comparator<SubCategoryModel> {// may be it would be Model
+        @Override
+        public int compare(SubCategoryModel obj1, SubCategoryModel obj2) {
+            return obj1.getDistance().compareTo(obj1.getDistance());
+        }
     }
 
     // Download data
     private void downData() {
         if (!ConnUtil.isNetConnected(this)) {
             showErrorConnection();
+            mSwipeRefreshLayout.setRefreshing(false);
             return;
         }
         sendRequest();
@@ -146,7 +158,7 @@ public class EntertaimentSport extends AppCompatActivity implements
     // Seng Request GET
     private void sendRequest() {
 
-        JsonArrayRequest stringRequest = new JsonArrayRequest(AppConfig.URL_TENANT+"14",
+        JsonArrayRequest stringRequest = new JsonArrayRequest(AppConfig.URL_TENANT,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -171,11 +183,9 @@ public class EntertaimentSport extends AppCompatActivity implements
                                 double longtitude = Double.parseDouble(obj.getString("longitude"));
                                 double latitude = Double.parseDouble(obj.getString("latitude"));
                                 int distance = calculateDistance(latitude,longtitude);
-                                art.setDistance(""+distance+" KM");
-                                art.setSubcategory(obj.getString("subcategory"));
+                                art.setDistance(""+distance);
                                 artList.add(art);
                             }
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(getApplicationContext(),
@@ -184,6 +194,19 @@ public class EntertaimentSport extends AppCompatActivity implements
                         }
                         // notifying list adapter about data changes
                         // so that it renders the list view with updated data
+                        if (sortStatus == "Distance") {
+                            Collections.sort(artList, new Comparator<SubCategoryModel>() {
+                                @Override
+                                public int compare(SubCategoryModel cat1, SubCategoryModel cat2) {
+
+                                    //return lhs.getInt("messageId") > rhs.getInt("messageId") ? 1 : (lhs
+                                    //      .getInt("messageId") < rhs.getInt("messageId") ? -1 : 0);
+                                    int a = Integer.parseInt(cat1.getDistance());
+                                    int b = Integer.parseInt(cat2.getDistance());
+                                    return a - b;
+                                }
+                            });
+                        }
                         adapter.notifyDataSetChanged();
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
@@ -209,6 +232,11 @@ public class EntertaimentSport extends AppCompatActivity implements
 
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(stringRequest);
+
+        //if (sortStatus.equals("Distance")) {
+
+        //}
+
     }
 
     // Initialization spinner
@@ -244,13 +272,19 @@ public class EntertaimentSport extends AppCompatActivity implements
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                String item = parent.getItemAtPosition(position).toString();
+
                 if (firstItem.equals(String.valueOf(spinner_sort.getSelectedItem()))) {
                     // ToDo when first item is selected
-                } else {
-                    Toast.makeText(parent.getContext(),
-                            "You have selected : " + parent.getItemAtPosition(position).toString(),
-                            Toast.LENGTH_LONG).show();
-                    // Todo when item is selected by the user
+                } else if (item.equals("Name")){
+                    mSwipeRefreshLayout.setRefreshing(true);
+                    sortStatus = "Name";
+                    downData();
+                }else if (item.equals("Distance")){
+                    mSwipeRefreshLayout.setRefreshing(true);
+                    sortStatus = "Distance";
+                    downData();
                 }
             }
 

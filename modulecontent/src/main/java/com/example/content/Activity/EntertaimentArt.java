@@ -146,7 +146,7 @@ public class EntertaimentArt extends AppCompatActivity implements
     // Seng Request GET
     private void sendRequest() {
 
-        JsonArrayRequest stringRequest = new JsonArrayRequest(AppConfig.URL_TENANT+"14",
+        JsonArrayRequest stringRequest = new JsonArrayRequest(AppConfig.URL_TENANT,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -172,7 +172,6 @@ public class EntertaimentArt extends AppCompatActivity implements
                                 double latitude = Double.parseDouble(obj.getString("latitude"));
                                 int distance = calculateDistance(latitude,longtitude);
                                 art.setDistance(""+distance+" KM");
-                                art.setSubcategory(obj.getString("subcategory"));
                                 artList.add(art);
                             }
 
