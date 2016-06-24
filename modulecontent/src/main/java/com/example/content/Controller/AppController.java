@@ -1,6 +1,5 @@
 package com.example.content.Controller;
 
-import android.app.Activity;
 import android.app.Application;
 import android.text.TextUtils;
 
@@ -8,6 +7,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.example.content.R;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
  * Created by M. Asrof Bayhaqqi on 6/13/2016.
@@ -24,6 +26,11 @@ public class AppController extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/HelveticaNeue-Light.otf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
     }
 
     public static synchronized AppController getInstance() {

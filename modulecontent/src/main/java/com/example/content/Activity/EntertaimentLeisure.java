@@ -1,27 +1,56 @@
 package com.example.content.Activity;
 
+import android.Manifest;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.content.Adapter.EntertaimentLeisureAdapter;
-import com.example.content.Model.SubCategoryItem;
+import com.example.content.Controller.AppConfig;
+import com.example.content.Controller.AppController;
+import com.example.content.Controller.AppData;
+import com.example.content.Model.SubCategoryModel;
 import com.example.content.R;
+import com.example.content.Util.ConnUtil;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -31,63 +60,151 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class EntertaimentLeisure extends AppCompatActivity implements
         AdapterView.OnItemClickListener {
 
+    // Log tag
+    private static final String TAG = EntertaimentLeisure.class.getSimpleName();
+
+    private List<SubCategoryModel> artList = new ArrayList<SubCategoryModel>();
+    private ListView listView;
+    private EntertaimentLeisureAdapter adapter;
+    private Toolbar bar;
+    private LinearLayout linearLayout;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     Spinner spinner_category, spinner_sort;
-    String[] cities = {
-            "Mumbai",
-            "Delhi",
-            "Bangalore",
-            "Hyderabad",
-            "Ahmedabad",
-            "Chennai",
-            "Kolkata",
-            "Pune",
-            "Jabalpur"
-    };
-    public static final String[] title = new String[]{"Strawberry",
-            "Banana", "Orange", "Mixed"};
 
-    public static final String[] location = new String[]{
-            "It is an aggregate accessory fruit",
-            "It is the largest herbaceous flowering plant", "Citrus Fruit",
-            "Mixed Fruits"};
-
-    public static final String[] distance = new String[]{
-            "It is an aggregate accessory fruit",
-            "It is the largest herbaceous flowering plant", "Citrus Fruit",
-            "Mixed Fruits"};
-
-    public static final Integer[] thumbnail = {R.drawable.profile_pc,
-            R.drawable.profile_pc, R.drawable.profile_pc, R.drawable.profile_pc};
-
-    ListView listView;
-    List<com.example.content.Model.SubCategoryItem> SubCategoryItem;
-
-    /**
-     * Called when the activity is first cr eated.
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sub_category);
+        setContentView(R.layout.sub_category_new);
 
-        Toolbar bar = (Toolbar) findViewById(R.id.toolbar);
+        bar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(bar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Leisure");
 
-        SubCategoryItem = new ArrayList<com.example.content.Model.SubCategoryItem>();
-        for (int i = 0; i < title.length; i++) {
-            com.example.content.Model.SubCategoryItem item = new SubCategoryItem(thumbnail[i], title[i], location[i], distance[i]);
-            SubCategoryItem.add(item);
-        }
+        initView();
+        initSwipeRefresh();
+        initListView();
+        initSpinner();
+        downData();
+    }
 
+    private int calculateDistance(double latitude, double longitude){
+        Location locationA = new Location("point A");
+
+        locationA.setLatitude(AppData.myLatitude);
+        locationA.setLongitude(AppData.myLongitude);
+
+        Location locationB = new Location("point B");
+
+        locationB.setLatitude(latitude);
+        locationB.setLongitude(longitude);
+
+        float distanceInMeters = locationA.distanceTo(locationB)/1000;
+        Integer distanceInKM = Math.round(distanceInMeters);
+
+        return distanceInKM;
+    }
+
+    // Initialization view
+    private void initView() {
+        linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
+    }
+
+    // Initialization swiperefresh
+    private void initSwipeRefresh() {
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                downData();
+            }
+        });
+        mSwipeRefreshLayout.setRefreshing(true);
+    }
+
+    // Initialization listview
+    private void initListView() {
         listView = (ListView) findViewById(R.id.list_view);
-        EntertaimentLeisureAdapter adapter = new EntertaimentLeisureAdapter(this,
-                R.layout.sub_category_item, SubCategoryItem);
+        adapter = new EntertaimentLeisureAdapter(this, artList);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
+    }
 
-        initSpinner();
+    // Download data
+    private void downData() {
+        if (!ConnUtil.isNetConnected(this)) {
+            showErrorConnection();
+            return;
+        }
+        sendRequest();
+    }
+
+    // Seng Request GET
+    private void sendRequest() {
+
+        JsonArrayRequest stringRequest = new JsonArrayRequest(AppConfig.URL_TENANT,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, response.toString());
+
+                        // clear art in art array for update and add new art
+                        artList.clear();
+
+                        try {
+                            // Parsing json array response
+                            // loop through each json object
+                            for (int i = 0; i < response.length(); i++) {
+
+                                JSONObject obj = response.getJSONObject(i);
+                                SubCategoryModel art = new SubCategoryModel();
+                                art.setIdtenant(obj.getString("id_tenant"));
+                                art.setAvatar(obj.getString("avatar"));
+                                art.setName(obj.getString("name"));
+                                art.setAddress(obj.getString("address"));
+                                art.setLatitude(obj.getString("latitude"));
+                                art.setLongitude(obj.getString("longitude"));
+                                double longtitude = Double.parseDouble(obj.getString("longitude"));
+                                double latitude = Double.parseDouble(obj.getString("latitude"));
+                                int distance = calculateDistance(latitude,longtitude);
+                                art.setDistance(""+distance+" KM");
+                                artList.add(art);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(),
+                                    "Error: " + e.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                        // notifying list adapter about data changes
+                        // so that it renders the list view with updated data
+                        adapter.notifyDataSetChanged();
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_SHORT).show();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String credentials = "admin:1234";
+                String auth = "Basic " + Base64.encodeToString(credentials.getBytes(),    Base64.NO_WRAP);
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", auth);
+                return headers;
+            }
+        };
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(stringRequest);
     }
 
     // Initialization spinner
@@ -140,54 +257,25 @@ public class EntertaimentLeisure extends AppCompatActivity implements
         });
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position,
-                            long id) {
-        /*Toast toast = Toast.makeText(getApplicationContext(),
-                "Item " + (position + 1) + ": " + SubCategoryItem.get(position),
-                Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-        toast.show();*/
+    // Show snackbar error
+    private void showErrorConnection() {
+        Snackbar snackbar = Snackbar
+                .make(linearLayout, R.string.no_connection, Snackbar.LENGTH_LONG)
+                .setAction(R.string.retry, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        downData();
+                    }
+                });
 
-        switch (position) {
-            case 0:
-                /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                Intent intent_leisure0 = new Intent(getApplicationContext(), EntertaimentLeisureDetail.class);
-                startActivity(intent_leisure0);
-                break;
-            case 1:
-                /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                Intent intent_leisure1 = new Intent(getApplicationContext(), EntertaimentLeisureDetail.class);
-                startActivity(intent_leisure1);
-                break;
-            case 2:
-               /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                Intent intent_leisure2 = new Intent(getApplicationContext(), EntertaimentLeisureDetail.class);
-                startActivity(intent_leisure2);
-                break;
-            case 3:
-               /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                Intent intent_leisure3 = new Intent(getApplicationContext(), EntertaimentLeisureDetail.class);
-                startActivity(intent_leisure3);
-                break;
-            case 4:
-               /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                Intent intent_leisure4 = new Intent(getApplicationContext(), EntertaimentLeisureDetail.class);
-                startActivity(intent_leisure4);
-                break;
-            case 5:
-               /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                Intent intent_leisure5 = new Intent(getApplicationContext(), EntertaimentLeisureDetail.class);
-                startActivity(intent_leisure5);
-                break;
-            case 6:
-               /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                Intent intent_leisure6 = new Intent(getApplicationContext(), EntertaimentLeisureDetail.class);
-                startActivity(intent_leisure6);
-                break;
-        }
+        // Changing message text color
+        snackbar.setActionTextColor(Color.RED);
 
-
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.YELLOW);
+        snackbar.show();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -202,6 +290,21 @@ public class EntertaimentLeisure extends AppCompatActivity implements
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
         return true;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String idtenant = artList.get(position).getIdtenant();
+        String name = artList.get(position).getName();
+        String distance = artList.get(position).getDistance();
+        /*Snackbar.make(listView, "ID Tenant : " + id_tenant, Snackbar.LENGTH_LONG).show();*/
+        Intent intent = new Intent(EntertaimentLeisure.this, EntertaimentLeisureDetail.class);
+        Bundle extras = new Bundle();
+        extras.putString("id_tenant", idtenant);
+        extras.putString("name", name);
+        extras.putString("distance", distance);
+        intent.putExtras(extras);
+        startActivity(intent);
     }
 
     @Override

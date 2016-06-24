@@ -6,11 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+import com.example.content.Controller.AppController;
 import com.example.content.Model.SubCategoryItem;
+import com.example.content.Model.SubCategoryModel;
 import com.example.content.R;
 
 import java.util.List;
@@ -18,49 +23,64 @@ import java.util.List;
 /**
  * Created by SMK Telkom SP Malang on 10/06/2016.
  */
-public class DiningFastAdapter extends ArrayAdapter<SubCategoryItem> {
+public class DiningFastAdapter extends BaseAdapter {
 
-    Context context;
+    private Activity activity;
+    private LayoutInflater inflater;
+    private List<SubCategoryModel> dinitem;
+    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
-    public DiningFastAdapter(Context context, int resourceId,
-                             List<SubCategoryItem> items) {
-        super(context, resourceId, items);
-        this.context = context;
+    public DiningFastAdapter(Activity activity, List<SubCategoryModel> dinList) {
+        this.activity = activity;
+        this.dinitem = dinList;
     }
 
-    /*private view holder class*/
-    private class ViewHolder {
-        ImageView thumbnail;
-        TextView title;
-        TextView location;
-        TextView distance;
-        RelativeLayout list;
+    @Override
+    public int getCount() {
+        return dinitem.size();
+    }
+
+    @Override
+    public Object getItem(int location) {
+        return dinitem.get(location);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
     }
 
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
-        SubCategoryItem SubCategoryItem = getItem(position);
+        if (inflater == null)
+            inflater = (LayoutInflater) activity
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (convertView == null)
+            convertView = inflater.inflate(R.layout.sub_category_item_new, null);
+        if (imageLoader == null)
+            imageLoader = AppController.getInstance().getImageLoader();
+        NetworkImageView avatar = (NetworkImageView) convertView
+                .findViewById(R.id.avatar);
+        TextView name = (TextView) convertView.findViewById(R.id.name);
+        TextView address = (TextView) convertView.findViewById(R.id.address);
+        TextView phone = (TextView) convertView.findViewById(R.id.phone);
 
-        LayoutInflater mInflater = (LayoutInflater) context
-                .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.sub_category_item, null);
-            holder = new ViewHolder();
-            holder.title = (TextView) convertView.findViewById(R.id.title);
-            holder.location = (TextView) convertView.findViewById(R.id.location);
-            holder.distance = (TextView) convertView.findViewById(R.id.distance);
-            holder.thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail);
-            holder.list = (RelativeLayout) convertView.findViewById(R.id.list);
-            convertView.setTag(holder);
-        } else
-            holder = (ViewHolder) convertView.getTag();
+        // getting movie data for the row
+        SubCategoryModel entertaiment = dinitem.get(position);
 
-        holder.title.setText(SubCategoryItem.getTitle());
-        holder.location.setText(SubCategoryItem.getLocation());
-        holder.distance.setText(SubCategoryItem.getDistance());
-        holder.thumbnail.setImageResource(SubCategoryItem.getThumbnail());
+        // thumbnail image
+        avatar.setImageUrl(entertaiment.getAvatar(), imageLoader);
 
+        // name
+        name.setText(entertaiment.getName());
+
+        // address
+        address.setText(entertaiment.getAddress());
+
+        // phone
+        phone.setText(entertaiment.getDistance());
         return convertView;
+
     }
+
 
 }

@@ -1,6 +1,9 @@
 package com.example.content.Adapter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,10 +12,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+import com.example.content.Activity.DiningRecommended;
 import com.example.content.Activity.DiningRecommendedDetail;
+import com.example.content.Activity.EntertaimentRecommendedDetail;
 import com.example.content.Activity.GettingToKnowDetail;
+import com.example.content.Controller.AppController;
 import com.example.content.Model.RecommendedItem;
+import com.example.content.Model.RecommendedModel;
+import com.example.content.Model.SubCategoryModel;
 import com.example.content.R;
 
 import java.util.ArrayList;
@@ -23,120 +34,92 @@ import java.util.List;
  */
 public class DiningRecommendedAdapter extends RecyclerView.Adapter<DiningRecommendedAdapter.ViewHolder> {
 
-    List<RecommendedItem> Items;
 
-    public DiningRecommendedAdapter() {
+    private ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+    private Context context;
+    List<RecommendedModel> recommendedItems;
+
+    public DiningRecommendedAdapter(List<RecommendedModel> recommendedItems, Context context) {
         super();
-        Items = new ArrayList<RecommendedItem>();
-        RecommendedItem category = new RecommendedItem();
-
-        //Card View 1
-        category.setTitle("Title");
-        category.setLocation("Location");
-        category.setCategory("Category");
-        category.setDistance("Distance");
-        category.setInfo("Info");
-        category.setStar(5);
-        category.setThumbnail(R.drawable.about);
-        Items.add(category);
-
-        //Card View 2
-        category.setTitle("Title");
-        category.setLocation("Location");
-        category.setCategory("Category");
-        category.setDistance("Distance");
-        category.setInfo("Info");
-        category.setStar(5);
-        category.setThumbnail(R.drawable.about);
-        Items.add(category);
-
-        //Card View 3
-        category.setTitle("Title");
-        category.setLocation("Location");
-        category.setCategory("Category");
-        category.setDistance("Distance");
-        category.setInfo("Info");
-        category.setStar(5);
-        category.setThumbnail(R.drawable.about);
-        Items.add(category);
-
+        this.recommendedItems = recommendedItems;
+        this.context = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.recommended_item, viewGroup, false);
+                .inflate(R.layout.recommended_item_new, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        RecommendedItem item = Items.get(i);
-        viewHolder.title.setText(item.getTitle());
-        viewHolder.location.setText(item.getLocation());
-        viewHolder.category.setText(item.getCategory());
-        viewHolder.distance.setText(item.getDistance());
-        viewHolder.info.setText(item.getInfo());
-        viewHolder.star.setRating(item.getStar());
-        viewHolder.thumbnail.setImageResource(item.getThumbnail());
-        viewHolder.list.setTag(viewHolder);
+
+        RecommendedModel recommendedItem = recommendedItems.get(i);
+        imageLoader = AppController.getInstance().getImageLoader();
+        viewHolder.avatar.setImageUrl(recommendedItem.getAvatar(), imageLoader);
+
+        viewHolder.name.setText(recommendedItem.getName());
+        viewHolder.address.setText(recommendedItem.getAddress());
+        viewHolder.category.setText(recommendedItem.getSubcategory());
+        viewHolder.distance.setText(recommendedItem.getDistance());
+        viewHolder.info.setText(recommendedItem.getInfo());
+
+        viewHolder.rating.setRating(Float.parseFloat(recommendedItem.getRating()));
+        viewHolder.list.setTag(i);
     }
 
     @Override
     public int getItemCount() {
-        return Items.size();
+        return recommendedItems.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public ImageView thumbnail;
-        public TextView title;
-        public TextView location;
+        public NetworkImageView avatar;
+        public TextView name;
+        public TextView address;
         public TextView category;
         public TextView distance;
         public TextView info;
-        public RatingBar star;
+        public TextView status;
+        public RatingBar rating;
         public CardView list;
 
         public ViewHolder(final View itemView) {
             super(itemView);
 
-            thumbnail = (ImageView)itemView.findViewById(R.id.thumbnail);
-            title = (TextView)itemView.findViewById(R.id.title);
-            location = (TextView)itemView.findViewById(R.id.location);
+            avatar = (NetworkImageView) itemView.findViewById(R.id.avatar);
+            name = (TextView) itemView.findViewById(R.id.name);
+            address = (TextView) itemView.findViewById(R.id.address);
             category = (TextView)itemView.findViewById(R.id.category);
             distance = (TextView)itemView.findViewById(R.id.distance);
             info = (TextView)itemView.findViewById(R.id.info);
-            star = (RatingBar) itemView.findViewById(R.id.rating);
-            list = (CardView)itemView.findViewById(R.id.list);
+            rating = (RatingBar) itemView.findViewById(R.id.rating);
+            list = (CardView) itemView.findViewById(R.id.list);
+            status =(TextView) itemView.findViewById(R.id.info);
 
-            list.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ViewHolder holder = (ViewHolder)v.getTag();
-                    int position = holder.getPosition();
+            list.setOnClickListener(this);
+        }
 
-                    Intent intent_news = new Intent(v.getContext(), GettingToKnowDetail.class);
-                    switch (position){
-                        case 0:
-                            /*Snackbar.make(list, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                            Intent intent_recom_dining0 = new Intent(v.getContext(), DiningRecommendedDetail.class);
-                            v.getContext().startActivity(intent_recom_dining0);
-                            break;
-                        case 1:
-                            /*Snackbar.make(list, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                            Intent intent_recom_dining1 = new Intent(v.getContext(), DiningRecommendedDetail.class);
-                            v.getContext().startActivity(intent_recom_dining1);
-                            break;
-                        case 2:
-                            /*Snackbar.make(list, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
-                            Intent intent_recom_dining2 = new Intent(v.getContext(), DiningRecommendedDetail.class);
-                            v.getContext().startActivity(intent_recom_dining2);
-                            break;
-                    }
-                }
-            });
+        @Override
+        public void onClick(View v) {
+            int i = getAdapterPosition();
+            RecommendedModel recommendedItem = recommendedItems.get(i);
+
+            String idtenant = recommendedItem.getIdtenant();
+            String name = recommendedItem.getName();
+            String distance = recommendedItem.getDistance();
+
+            Intent intent = new Intent(v.getContext(), EntertaimentRecommendedDetail.class);
+            Bundle extras = new Bundle();
+            extras.putString("id_tenant", idtenant);
+            extras.putString("name", name);
+            extras.putString("distance", distance);
+            intent.putExtras(extras);
+            intent.putExtras(extras);
+            v.getContext().startActivity(intent);
         }
     }
 }

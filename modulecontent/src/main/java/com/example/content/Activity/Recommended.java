@@ -46,6 +46,8 @@ public class Recommended extends AppCompatActivity {
 
         mAdapter = new RecommendedAdapter();
         mRecyclerView.setAdapter(mAdapter);
+
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

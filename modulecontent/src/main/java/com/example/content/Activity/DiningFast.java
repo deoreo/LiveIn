@@ -3,25 +3,50 @@ package com.example.content.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.content.Adapter.DiningFastAdapter;
+import com.example.content.Adapter.DiningJapaneseAdapter;
+import com.example.content.Controller.AppConfig;
+import com.example.content.Controller.AppController;
+import com.example.content.Controller.AppData;
 import com.example.content.Model.SubCategoryItem;
+import com.example.content.Model.SubCategoryModel;
 import com.example.content.R;
+import com.example.content.Util.ConnUtil;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -31,36 +56,15 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class DiningFast extends AppCompatActivity implements
         AdapterView.OnItemClickListener {
 
+    private static final String TAG = DiningFast.class.getSimpleName();
+
+    private List<SubCategoryModel> dinList = new ArrayList<SubCategoryModel>();
+    private ListView listView;
+    private DiningFastAdapter adapter;
+    private Toolbar bar;
+    private LinearLayout linearLayout;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     Spinner spinner_category, spinner_sort;
-    String[] cities = {
-            "Mumbai",
-            "Delhi",
-            "Bangalore",
-            "Hyderabad",
-            "Ahmedabad",
-            "Chennai",
-            "Kolkata",
-            "Pune",
-            "Jabalpur"
-    };
-    public static final String[] title = new String[]{"Strawberry",
-            "Banana", "Orange", "Mixed"};
-
-    public static final String[] location = new String[]{
-            "It is an aggregate accessory fruit",
-            "It is the largest herbaceous flowering plant", "Citrus Fruit",
-            "Mixed Fruits"};
-
-    public static final String[] distance = new String[]{
-            "It is an aggregate accessory fruit",
-            "It is the largest herbaceous flowering plant", "Citrus Fruit",
-            "Mixed Fruits"};
-
-    public static final Integer[] thumbnail = {R.drawable.profile_pc,
-            R.drawable.profile_pc, R.drawable.profile_pc, R.drawable.profile_pc};
-
-    ListView listView;
-    List<com.example.content.Model.SubCategoryItem> SubCategoryItem;
 
     /**
      * Called when the activity is first cr eated.
@@ -68,26 +72,165 @@ public class DiningFast extends AppCompatActivity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sub_category);
+        setContentView(R.layout.sub_category_new);
 
-        Toolbar bar = (Toolbar) findViewById(R.id.toolbar);
+
+        bar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(bar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Fast");
+        getSupportActionBar().setTitle("Japanese");
 
-        SubCategoryItem = new ArrayList<com.example.content.Model.SubCategoryItem>();
-        for (int i = 0; i < title.length; i++) {
-            com.example.content.Model.SubCategoryItem item = new SubCategoryItem(thumbnail[i], title[i], location[i], distance[i]);
-            SubCategoryItem.add(item);
+
+
+        initSwipeRefresh();
+        initListView();
+        initSpinner();
+        downData();
+    }
+
+    // Initialization spinner
+    private void downData() {
+        if (!ConnUtil.isNetConnected(this)) {
+            showErrorConnection();
+            mSwipeRefreshLayout.setRefreshing(false);
+            return;
         }
+        sendRequest();
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
 
+
+
+    private void sendRequest() {
+
+        JsonArrayRequest stringRequest = new JsonArrayRequest(AppConfig.URL_DINING + '8',
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, response.toString());
+
+                        // clear art in art array for update and add new art
+                        dinList.clear();
+
+                        try {
+                            // Parsing json array response
+                            // loop through each json object
+                            for (int i = 0; i < response.length(); i++) {
+
+
+
+                                JSONObject obj = response.getJSONObject(i);
+
+                                SubCategoryModel dinjap = new SubCategoryModel();
+                                dinjap.setIdtenant(obj.getString("id_tenant"));
+                                dinjap.setAvatar(obj.getString("avatar"));
+                                dinjap.setName(obj.getString("name"));
+                                dinjap.setAddress(obj.getString("address"));
+                                dinjap.setLatitude(obj.getString("latitude"));
+                                dinjap.setLongitude(obj.getString("longitude"));
+                                double longtitude = Double.parseDouble(obj.getString("longitude"));
+                                double latitude = Double.parseDouble(obj.getString("latitude"));
+                                int distance = calculateDistance(latitude,longtitude);
+                                dinjap.setDistance(""+distance+" KM");
+                                dinjap.setSubcategory(obj.getString("subcategory"));
+                                dinList.add(dinjap);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(),
+                                    "Error: " + e.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                        // notifying list adapter about data changes
+                        // so that it renders the list view with updated data
+                        adapter.notifyDataSetChanged();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String credentials = "admin:1234";
+                String auth = "Basic " + Base64.encodeToString(credentials.getBytes(),    Base64.NO_WRAP);
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", auth);
+                return headers;
+            }
+        };
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+
+    private int calculateDistance(double latitude, double longitude){
+        Location locationA = new Location("point A");
+
+        locationA.setLatitude(AppData.myLatitude);
+        locationA.setLongitude(AppData.myLongitude);
+
+        Location locationB = new Location("point B");
+
+        locationB.setLatitude(latitude);
+        locationB.setLongitude(longitude);
+
+        float distanceInMeters = locationA.distanceTo(locationB)/1000;
+        Integer distanceInKM = Math.round(distanceInMeters);
+
+        return distanceInKM;
+    }
+
+    private void showErrorConnection() {
+        Snackbar snackbar = Snackbar
+                .make(linearLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                .setAction("RETRY", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        downData();
+                    }
+                });
+
+        // Changing message text color
+        snackbar.setActionTextColor(Color.RED);
+
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.YELLOW);
+        snackbar.show();
+    }
+
+    private void initListView() {
         listView = (ListView) findViewById(R.id.list_view);
-        DiningFastAdapter adapter = new DiningFastAdapter(this,
-                R.layout.sub_category_item, SubCategoryItem);
+        adapter = new DiningFastAdapter(this, dinList);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
+    }
 
-        initSpinner();
+    private void initSwipeRefresh() {
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                downData();
+            }
+        });
+        mSwipeRefreshLayout.setRefreshing(true);
+    }
+
+    //inialize initvieq
+    private void initView() {
+        linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
     }
 
     // Initialization spinner
@@ -139,7 +282,6 @@ public class DiningFast extends AppCompatActivity implements
             }
         });
     }
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long id) {
@@ -149,6 +291,7 @@ public class DiningFast extends AppCompatActivity implements
         toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         toast.show();*/
 
+<<<<<<< HEAD
         switch (position) {
             case 0:
                 /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
@@ -187,6 +330,55 @@ public class DiningFast extends AppCompatActivity implements
                 break;
         }
 
+=======
+//        switch (position) {
+//            case 0:
+//                /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
+//                Intent intent_fast0 = new Intent(getApplicationContext(), DiningJapaneseDetail.class);
+//                startActivity(intent_fast0);
+//                break;
+//            case 1:
+//                /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
+//                Intent intent_fast1 = new Intent(getApplicationContext(), DiningJapaneseDetail.class);
+//                startActivity(intent_fast1);
+//                break;
+//            case 2:
+//               /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
+//                Intent intent_fast2 = new Intent(getApplicationContext(), DiningJapaneseDetail.class);
+//                startActivity(intent_fast2);
+//                break;
+//            case 3:
+//               /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
+//                Intent intent_fast3 = new Intent(getApplicationContext(), DiningJapaneseDetail.class);
+//                startActivity(intent_fast3);
+//                break;
+//            case 4:
+//               /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
+//                Intent intent_fast4 = new Intent(getApplicationContext(), DiningJapaneseDetail.class);
+//                startActivity(intent_fast4);
+//                break;
+//            case 5:
+//               /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
+//                Intent intent_fast5 = new Intent(getApplicationContext(), DiningJapaneseDetail.class);
+//                startActivity(intent_fast5);
+//                break;
+//            case 6:
+//               /*Snackbar.make(listView, "Position : " + getPosition(), Snackbar.LENGTH_LONG).show();*/
+//                Intent intent_fast6 = new Intent(getApplicationContext(), DiningFastDetail.class);
+//                startActivity(intent_fast6);
+//                break;
+//        }
+
+        String idtenant = dinList.get(position).getIdtenant();
+        String name = dinList.get(position).getName();
+        /*Snackbar.make(listView, "ID Tenant : " + idtenant, Snackbar.LENGTH_LONG).show();*/
+        Intent intent = new Intent(DiningFast.this, DiningFastDetail.class);
+        Bundle extras = new Bundle();
+        extras.putString("idtenant", idtenant);
+        extras.putString("name", name);
+        intent.putExtras(extras);
+        startActivity(intent);
+>>>>>>> b52c21439a001134ed78a1220b60b388e4356901
 
     }
 

@@ -122,6 +122,7 @@ public class PhotoGallery extends AppCompatActivity {
         });
 
         // Adding request to request queue
+
         AppController.getInstance().addToRequestQueue(req);
     }
 }
